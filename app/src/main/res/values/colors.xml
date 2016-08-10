@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#CE0000</color>
+    <color name="colorPrimaryDark">#AE0000</color>
+    <color name="colorAccent">#FF2D2D</color>
+    <color name="pink">#FFC1E0</color>
+
+    <color name="app_color">#CE0000</color>
+    <color name="app_gray">#E0E0E0</color>
+
+    <color name="little_gray">#F0F0F0</color>
+
+    <color name="red">#ff0000</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="green">#53FF53</color>
+
+</resources>

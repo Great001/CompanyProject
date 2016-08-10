@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Activity.MainActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar_layout"
+        />
+
+    <RadioGroup
+        android:id="@+id/rg_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:background="@color/white"
+       >
+
+        <RadioButton
+            android:id="@+id/rbtn_home_page"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_navigate_height"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/home_page_tab"
+            android:text="首页"
+            android:gravity="center"
+            android:checked="true"
+            android:button="@null"
+            android:textColor="@drawable/text_color_tab"/>
+        <RadioButton
+            android:id="@+id/rbtn_order_page"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_navigate_height"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/order_page_tab"
+            android:text="订单"
+            android:gravity="center"
+            android:button="@null"
+            android:textColor="@drawable/text_color_tab"/>
+
+        <RadioButton
+            android:id="@+id/rbtn_personal_page"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_navigate_height"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/personal_page_tab"
+            android:text="我"
+            android:gravity="center"
+            android:button="@null"
+            android:textColor="@drawable/text_color_tab"
+           />
+
+    </RadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/app_gray"
+            android:layout_above="@id/rg_tab"
+            android:layout_marginBottom="5dp"
+            />
+</RelativeLayout>

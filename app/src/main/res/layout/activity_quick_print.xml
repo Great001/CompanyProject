@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.lhc.android.great.Activity.QuickPrint"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/qp_tv_welcome_height"
+       >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/qp_welcome"
+        android:textSize="@dimen/qp_welcome_text_size"
+        android:textColor="@color/red"
+        android:gravity="center"
+        android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/qp_tip_add_file"
+        android:textSize="@dimen/qp_text_size"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="16dp"/>
+
+    <ImageView
+        android:id="@+id/iv_add_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/add_file"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="25dp">
+        <ImageView
+            android:layout_width="@dimen/qp_iv_file_added_width_height"
+            android:layout_height="@dimen/qp_iv_file_added_width_height"
+            android:src="@drawable/file_added"
+            android:layout_gravity="center_vertical"/>
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/qp_progress_bar_height"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center_vertical"
+            android:indeterminate="true"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:max="100"
+            />
+        <ImageView
+            android:id="@+id/iv_add_file_complete"
+            android:layout_width="30dp"
+            android:layout_height="@dimen/qp_iv_file_added_width_height"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:src="@drawable/check"
+            android:visibility="invisible"
+            />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_qp_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
