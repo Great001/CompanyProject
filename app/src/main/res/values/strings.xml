@@ -37,7 +37,7 @@
     <string name="login_tips">登录</string>
     <string name="login_name">账号</string>
     <string name="login_password">密码</string>
-    <string name="login_name_hint">昵称|手机号</string>
+    <string name="login_name_hint">学号|手机号</string>
 
     <string name="login_confirm">登录</string>
     <string name="login_cancel">取消</string>
@@ -47,6 +47,7 @@
 
     <string name="tips_account_is_not_valid">账户填写不规范，请检查并重新填写！</string>
     <string name="tips_password_can_not_empty">密码不能为空！</string>
+    <string name="tips_account_can_not_empty">"账号不能为空"</string>
 
     <!--regist activity-->
     <string name="name">姓名</string>

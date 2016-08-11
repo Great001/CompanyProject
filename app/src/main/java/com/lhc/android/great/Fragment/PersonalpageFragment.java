@@ -16,8 +16,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.lhc.android.great.Adapter.PersonalPageLvAdapter;
+import com.lhc.android.great.Bmod.UserProfile;
 import com.lhc.android.great.R;
 import com.lhc.android.great.Utils.NavigateUtil;
+
+import cn.bmob.v3.BmobUser;
 
 /**
  * Created by Administrator on 2016/8/7.
@@ -111,7 +114,8 @@ public class PersonalpageFragment extends Fragment {
         builder.setPositiveButton("确定",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                System.exit(1);
+                UserProfile user=BmobUser.getCurrentUser(UserProfile.class);
+                user.logOut();
             }
         });
 

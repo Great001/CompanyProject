@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.lhc.android.great.Adapter.TabViewPagerAdapter;
 import com.lhc.android.great.Adapter.mainFragmentAdapter;
+import com.lhc.android.great.Bmod.UserProfile;
 import com.lhc.android.great.Fragment.OrderFragment;
 import com.lhc.android.great.Fragment.PersonalpageFragment;
 import com.lhc.android.great.Fragment.homepageFragment;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -118,6 +120,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        UserProfile user=BmobUser.getCurrentUser(UserProfile.class);
+        if (user==null){
+            NavigateUtil.navigateToLoginActivity(MainActivity.this);
+        }
     }
 
 

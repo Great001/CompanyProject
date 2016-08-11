@@ -2,11 +2,13 @@ package com.lhc.android.great.Utils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.lhc.android.great.Activity.AboutUsActivity;
 import com.lhc.android.great.Activity.AccountManageActivity;
 import com.lhc.android.great.Activity.FindPasswordActivity;
 import com.lhc.android.great.Activity.LoginActivity;
+import com.lhc.android.great.Activity.MainActivity;
 import com.lhc.android.great.Activity.MyFileActivity;
 import com.lhc.android.great.Activity.PersonalInfoActivity;
 import com.lhc.android.great.Activity.PersonalIntegralActivity;
@@ -98,6 +100,7 @@ public class NavigateUtil {
 
     public static void navigateToRegistActivity(Activity activity){
         Intent intent =new Intent();
+        Bundle bundle=new Bundle();
         intent.setClass(activity, RegistActivity.class);
         activity.startActivity(intent);
     }
@@ -111,6 +114,13 @@ public class NavigateUtil {
     public static void navigateToFindPasswordActivity(Activity activity){
         Intent intent=new Intent();
         intent.setClass(activity, FindPasswordActivity.class);
+        activity.startActivity(intent);
+    }
+
+
+    public static void navigateToMainActivity(Activity activity){
+        Intent intent=new Intent();
+        intent.setClass(activity, MainActivity.class);
         activity.startActivity(intent);
     }
 
