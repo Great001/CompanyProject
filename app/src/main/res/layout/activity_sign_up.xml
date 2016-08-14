@@ -28,14 +28,15 @@
 
             <ImageView
                 android:id="@+id/iv_avatar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/person"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/avatar_default"
                 android:layout_gravity="center_horizontal"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/regist_item_height"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="20dp"
@@ -43,16 +44,16 @@
                 android:layout_marginTop="30dp">
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="match_parent"
                     android:text="学号"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/regist_custom_text_size"
                     android:gravity="center_vertical"/>
 
                 <EditText
                     android:id="@+id/et_username"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/regist_custom_text_size"
                     android:singleLine="true"
                     android:numeric="integer"
                     />
@@ -60,7 +61,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/regist_item_height"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="20dp"
@@ -91,7 +92,7 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/btn_bg_shape_two"
                 android:text="注册"
-                android:textSize="25sp"
+                android:textSize="@dimen/regist_button_text_size"
                 android:textColor="@color/white"/>
 
         </LinearLayout>
@@ -103,12 +104,12 @@
         <TextView
             android:id="@+id/tv_help"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/regist_item_height"
             android:text="帮助"
             android:textSize="@dimen/login_activiyt_item_text_size"
             android:layout_alignParentBottom="true"
             android:gravity="center"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="30dp"
             />
     </RelativeLayout>
 </LinearLayout>

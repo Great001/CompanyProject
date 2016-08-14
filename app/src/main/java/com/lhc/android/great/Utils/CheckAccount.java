@@ -7,19 +7,30 @@ import java.util.regex.Pattern;
  * Created by Administrator on 2016/8/8.
  */
 public class CheckAccount {
-    public  static boolean isValid=true;
-    public static boolean isAccountValid(String str){
+    public  static boolean isNameValid =true;
+    public static boolean isPasswordValid=true;
+
+    public static boolean checkName(String str){
         String regexName="^[a-zA-Z][a-zA-z0-9]*";
         String regexNumber="^1[358][0-9]{9}$";
         Pattern  pattern=Pattern.compile(regexName);
         Matcher matcher=pattern.matcher(str);
-        isValid=matcher.matches();
-        if(!isValid) {
+        isNameValid =matcher.matches();
+        if(!isNameValid) {
             pattern = Pattern.compile(regexNumber);
             matcher = pattern.matcher(str);
-            isValid = matcher.matches();
+            isNameValid = matcher.matches();
         }
-        return isValid;
+        return isNameValid;
+    }
+
+    public static boolean checkPassword(String str){
+        isPasswordValid=true;
+        int len=str.length();
+        if(len<6||len>18){
+            isPasswordValid=false;
+        }
+        return isPasswordValid;
     }
 
 }

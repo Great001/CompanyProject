@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.lhc.android.great.Activity.AboutUsActivity;
 import com.lhc.android.great.Activity.AccountManageActivity;
+import com.lhc.android.great.Activity.BrowserDocuments;
 import com.lhc.android.great.Activity.FindPasswordActivity;
 import com.lhc.android.great.Activity.LoginActivity;
 import com.lhc.android.great.Activity.MainActivity;
@@ -18,6 +19,7 @@ import com.lhc.android.great.Activity.RegistActivity;
 import com.lhc.android.great.Activity.SecondBookStore;
 import com.lhc.android.great.Activity.SetupActivity;
 import com.lhc.android.great.Activity.ShopStore;
+import com.lhc.android.great.Activity.UserInfoActivity;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -29,6 +31,7 @@ public class NavigateUtil {
     NavigateUtil mNavigateUtil;
 
     public static final int ADD_FILE_REQUEST=1;
+    public static final int BROWSE_DOCUMENT_REQUEST=2;
 
     public static void navigateToPrintPage(Activity activity){
         Intent intent=new Intent();
@@ -123,6 +126,22 @@ public class NavigateUtil {
         intent.setClass(activity, MainActivity.class);
         activity.startActivity(intent);
     }
+
+    public static void navigateToUserInfoActivity(Activity activity){
+        Intent intent=new Intent();
+        intent.setClass(activity, UserInfoActivity.class);
+        activity.startActivity(intent);
+    }
+
+
+    public static void navigateToBrowseDocumentActivity(Activity activity){
+        Intent intent=new Intent();
+        intent.setClass(activity, BrowserDocuments.class);
+        activity.startActivityForResult(intent,BROWSE_DOCUMENT_REQUEST);
+    }
+
+
+
 
 
 

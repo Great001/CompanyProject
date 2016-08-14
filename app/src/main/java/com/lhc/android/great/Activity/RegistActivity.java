@@ -1,6 +1,5 @@
 package com.lhc.android.great.Activity;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -54,14 +53,22 @@ public class RegistActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String username=mEtUsername.getText().toString();
                 String password = mEtPassword.getText().toString();
-
+                boolean isValid=true;
                 if(TextUtils.isEmpty(username)){
-                    ToastUtil.showToast(RegistActivity.this,"学号不能为空");
+                    ToastUtil.showToast(RegistActivity.this,R.string.tips_account_can_not_empty);
+                    isValid=false;
                 }
                 if(TextUtils.isEmpty(password)){
-                    ToastUtil.showToast(RegistActivity.this,"密码不能为空");
+                    ToastUtil.showToast(RegistActivity.this,R.string.tips_password_can_not_empty);
+                    isValid=false;
                 }
-                if(!TextUtils.isEmpty(username)&&!TextUtils.isEmpty(password)) {
+
+                if(!CheckAccount.checkPassword(password)){
+                    ToastUtil.showToast(RegistActivity.this,R.string.tips_password_require_lens);
+                    isValid=false;
+                }
+
+                if(isValid) {
                     UserProfile user = new UserProfile();
                     user.setUsername(username);
                     user.setPassword(password);
@@ -72,18 +79,23 @@ public class RegistActivity extends AppCompatActivity {
                                 ToastUtil.showToast(RegistActivity.this, "注册成功");
                                 mIvAvatar.setImageResource(R.drawable.avatar_boy);
                                 NavigateUtil.navigateToLoginActivity(RegistActivity.this);
+                                RegistActivity.this.finish();
                             } else {
                                 ToastUtil.showToast(RegistActivity.this, "注册失败，请检查学号是否填写正确");
                             }
                         }
                     });
                 }
-                else{
-                    ToastUtil.showToast(RegistActivity.this,"注册信息填写不合法");
-            }
 
             }
 
+        });
+
+        mTvHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToastUtil.showToast(RegistActivity.this,"help");
+            }
         });
 
 

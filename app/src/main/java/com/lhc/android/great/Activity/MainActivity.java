@@ -1,5 +1,7 @@
 package com.lhc.android.great.Activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -146,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 showToast(R.string.saoyisao);
                 break;
             case R.id.logout:
-               System.exit(1);
+               showComfirmDialog();
                 break;
             default:
                 break;
@@ -160,4 +162,25 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this,str,Toast.LENGTH_SHORT).show();
     }
 
+
+    public void showComfirmDialog(){
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setTitle("确认退出");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                System.exit(1);
+            }
+        });
+
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        builder.create().show();
+    }
 }

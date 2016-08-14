@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="@dimen/documents_item_height">
+
+        <ImageView
+            android:layout_width="@dimen/qp_iv_file_added_width_height"
+            android:layout_height="@dimen/qp_iv_file_added_width_height"
+            android:src="@drawable/file_added"
+            android:layout_gravity="center_vertical"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center_vertical"
+            >
+            <ProgressBar
+                android:id="@+id/upload_progress"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/qp_progress_bar_height"
+                android:indeterminate="false"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:max="100"
+                android:visibility="invisible"
+                />
+
+            <TextView
+                android:id="@+id/tv_upload_file_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="20sp"
+                android:gravity="center_vertical"
+               />
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/iv_upload_file_complete"
+            android:layout_width="35dp"
+            android:layout_height="@dimen/qp_iv_file_added_width_height"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/check"
+            android:visibility="invisible"
+            />
+</LinearLayout>

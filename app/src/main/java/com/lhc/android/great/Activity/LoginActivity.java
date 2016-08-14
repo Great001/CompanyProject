@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lhc.android.great.Bmod.Person;
 import com.lhc.android.great.Bmod.UserProfile;
 import com.lhc.android.great.R;
 import com.lhc.android.great.Utils.CheckAccount;
@@ -19,14 +18,12 @@ import com.lhc.android.great.Utils.NavigateUtil;
 import com.lhc.android.great.Utils.ToastUtil;
 
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.b.I;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
-import cn.bmob.v3.listener.UpdateListener;
 
 public class LoginActivity extends Activity {
 
-    private EditText mEtName,mEtPwd;
+    private EditText mEtAccount,mEtPwd;
     private Button mBtnCancel,mBtnConfirm;
     private TextView mTvForgetPwd,mTvRegistNow;
     private ImageView mIvAvatar;
@@ -46,7 +43,7 @@ public class LoginActivity extends Activity {
             }
         });
 
-        mEtName=(EditText)findViewById(R.id.et_login_name);
+        mEtAccount =(EditText)findViewById(R.id.et_login_account);
         mEtPwd=(EditText)findViewById(R.id.et_login_password);
         mBtnCancel=(Button)findViewById(R.id.btn_login_cancel);
         mBtnConfirm=(Button)findViewById(R.id.btn_login_confirm);
@@ -56,19 +53,24 @@ public class LoginActivity extends Activity {
 
         user=BmobUser.getCurrentUser(UserProfile.class);
         if(user!=null){
-            mEtName.setText(user.getUsername());
-            mIvAvatar.setImageResource(R.drawable.avatar_boy);
+            mEtAccount.setText(user.getUsername());
+            if(user.getSex()==0) {
+                mIvAvatar.setImageResource(R.drawable.avatar_boy);
+            }else{
+                mIvAvatar.setImageResource(R.drawable.avatar_girl);
+            }
         }else{
             user=new UserProfile();
         }
+
         mBtnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name=mEtName.getText().toString();
+                String name= mEtAccount.getText().toString();
                 String pwd=mEtPwd.getText().toString();
-                CheckAccount.isAccountValid(name);
+//                CheckAccount.checkName(name);
                 /*
-                if(!CheckAccount.isValid){
+                if(!CheckAccount.isNameValid){
                     Toast.makeText(getApplicationContext(),R.string.tips_account_is_not_valid,Toast.LENGTH_SHORT).show();
                 }*/
 
@@ -76,8 +78,9 @@ public class LoginActivity extends Activity {
                     ToastUtil.showToast(LoginActivity.this,R.string.tips_account_can_not_empty);
                 }
                 if(TextUtils.isEmpty(pwd)){
-                    Toast.makeText(getApplicationContext(),R.string.tips_password_can_not_empty,Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(LoginActivity.this,R.string.tips_password_can_not_empty);
                 }
+
                 if(!TextUtils.isEmpty(name)&&!TextUtils.isEmpty(pwd)){
                         user.setUsername(name);
                         user.setPassword(pwd);
@@ -86,10 +89,13 @@ public class LoginActivity extends Activity {
                             public void done(UserProfile userProfile, BmobException e) {
                                 if (e == null) {
                                     ToastUtil.showToast(LoginActivity.this, "登录成功");
-                                    mIvAvatar.setImageResource(R.drawable.avatar_boy);
+                                    userProfile.setLogined(true);
+                                    mIvAvatar.setImageResource(userProfile.getSex()==0?R.drawable.avatar_boy:R.drawable.avatar_girl);
                                     onBackPressed();
+                                } else {
                                 }
                             }
+
                         });
 
             }}
@@ -98,7 +104,7 @@ public class LoginActivity extends Activity {
         mBtnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mEtName.setText("");
+                mEtAccount.setText("");
                 mEtPwd.setText("");
             }
         });
@@ -118,5 +124,4 @@ public class LoginActivity extends Activity {
             }
         });
     }
-
 }

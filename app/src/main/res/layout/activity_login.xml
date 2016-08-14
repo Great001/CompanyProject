@@ -32,9 +32,10 @@
             android:layout_height="@dimen/login_img_view_height">
             <ImageView
                 android:id="@+id/iv_user_avatar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/person"
+                android:layout_width="@dimen/avatar_view_width_height"
+                android:layout_height="@dimen/avatar_view_width_height"
+                android:src="@drawable/avatar_default"
+                android:scaleType="centerCrop"
                 android:layout_centerInParent="true"/>
         </RelativeLayout>
 
@@ -53,14 +54,14 @@
                 android:textColor="@color/red"
                 android:gravity="center_vertical"/>
             <EditText
-                android:id="@+id/et_login_name"
+                android:id="@+id/et_login_account"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="10dp"
                 android:singleLine="true"
                 android:textSize="@dimen/login_activity_custom_text_size"
-                android:background="@color/app_gray"
                 android:hint="@string/login_name_hint"
+                android:numeric="integer"
                 android:gravity="center_vertical"/>
         </LinearLayout>
 
@@ -83,12 +84,11 @@
                 android:id="@+id/et_login_password"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="10dp"
                 android:textSize="@dimen/login_activity_custom_text_size"
                 android:password="true"
                 android:singleLine="true"
                 android:hint="@string/login_password"
-                android:background="@color/app_gray"
                 android:gravity="center_vertical"
                 />
         </LinearLayout>
