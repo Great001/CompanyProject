@@ -22,8 +22,8 @@
     <string name="regist_in">注册</string>
 
     <!--quick print page-->
-    <string name="qp_welcome">您好，欢迎光临极速打印店</string>
-    <string name="qp_tip_add_file">请添加要打印的文件</string>
+    <string name="qp_welcome">欢迎光临极速打印店</string>
+    <string name="qp_tip_add_file">添加文件</string>
     <string name="title_activity_personal_info">PersonalInfoActivity</string>
     <string name="title_activity_personal_integral">PersonalIntegralActivity</string>
     <string name="title_activity_personal_wallet">PersonalWalletActivity</string>

@@ -1,7 +1,9 @@
 package com.lhc.android.great.Activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
@@ -21,6 +23,11 @@ import com.lhc.android.great.Utils.BrowseFileUtil;
 import com.lhc.android.great.Utils.ToastUtil;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -28,7 +35,9 @@ import java.util.List;
 
 public class BrowserDocuments extends AppCompatActivity {
 
+    public static final int REQUEST_CODE=10;
     public static final int RESULT_CODE = 11;
+    public static final String KEY_BROWSED_FILES="browsed files";
 
     private LinearLayout mLlBack2Root;
     private ListView mLvDocuments;
@@ -41,12 +50,10 @@ public class BrowserDocuments extends AppCompatActivity {
 
     final Handler handler=new Handler();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser_documents);
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.browse_documents);
@@ -64,25 +71,28 @@ public class BrowserDocuments extends AppCompatActivity {
         mLlBack2Root = (LinearLayout) findViewById(R.id.ll_back_to_root_dir);
 
 
-        if(savedInstanceState!=null&&savedInstanceState.getStringArrayList("FILES")!=null) {
-            files = savedInstanceState.getStringArrayList("FILES");
+        if(savedInstanceState!=null&&savedInstanceState.getStringArrayList(KEY_BROWSED_FILES)!=null) {
+            files = savedInstanceState.getStringArrayList(KEY_BROWSED_FILES);
             adapter = new DocumentLvAdapter(BrowserDocuments.this, files);
             mLvDocuments.setAdapter(adapter);
         }
         else {
             final ProgressDialog dialog = new ProgressDialog(BrowserDocuments.this);
             dialog.setMessage("加载中");
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
             dialog.show();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     files = BrowseFileUtil.getDocuments();
+
                     int len = files.size();
                     flags = new boolean[len];
-
                     for (int i = 0; i < len; i++) {
                         flags[i] = false;
                     }
+
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -99,8 +109,8 @@ public class BrowserDocuments extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("*/*");
-                    startActivityForResult(intent, 3);
+                    intent.setType("text/*");
+                    startActivityForResult(intent, REQUEST_CODE);
 
                 }
             });
@@ -115,9 +125,10 @@ public class BrowserDocuments extends AppCompatActivity {
                     flags[i] = true;
                 } else {
                     count--;
-                    view.findViewById(R.id.iv_document_selected).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.iv_document_selected).setVisibility(View.GONE);
                     flags[i] = false;
                 }
+
                 if (count > 0) {
                     mTvComfirm.setVisibility(View.VISIBLE);
                 } else {
@@ -142,11 +153,7 @@ public class BrowserDocuments extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-
-
     }
-
 
     @Override
     protected void onResume() {
@@ -156,7 +163,7 @@ public class BrowserDocuments extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if(files!=null){
-            outState.putStringArrayList("FILES",files);
+            outState.putStringArrayList(KEY_BROWSED_FILES,files);
         }
         super.onSaveInstanceState(outState);
     }

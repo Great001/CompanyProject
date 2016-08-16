@@ -28,7 +28,7 @@ public class ShopStore extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_store);
-        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.relex_shop);
         toolbar.setNavigationIcon(R.drawable.arrow_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -38,34 +38,29 @@ public class ShopStore extends AppCompatActivity {
             }
         });
 
+        /*
         TextView result=(TextView) findViewById(R.id.result);
         UserProfile user= BmobUser.getCurrentUser(UserProfile.class);
         String str=user.getObjectId();
-        user.setAddress("华南师范大学");
-        user.update(str, new UpdateListener() {
-            @Override
-            public void done(BmobException e) {
+        String urls="";
 
-            }
-        });
-        List<String> list;
-        list=user.getFiles();
+        List<String> list=user.getFiles();
         if(list==null){
-            list=new ArrayList<>();
             ToastUtil.showToast(ShopStore.this,"空");
         }else{
             if(list.size()<=0){
                 ToastUtil.showToast(ShopStore.this,"空");
-
             }else{
                 for(String url:list) {
-                    result.setText(url);
+                    urls=urls+url;
+                    result.setText(urls);
                 }
                 }
         }
 
 
 
+    }*/
     }
 
 

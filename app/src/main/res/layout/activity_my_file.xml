@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context="com.lhc.android.great.Activity.MyFileActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -21,6 +22,16 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/app_gray"/>
+
+    <ListView
+        android:id="@+id/lv_myfiles"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ListView>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -30,4 +41,4 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_dialog_email" />
 
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

@@ -54,6 +54,7 @@ public class DocumentLvAdapter extends BaseAdapter {
         }
         String filename=getName(files.get(i));
         holder.filename.setText(filename);
+        holder.ivCheck.setVisibility(View.GONE);
         return view;
     }
 

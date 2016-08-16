@@ -74,6 +74,7 @@
         android:id="@+id/tv_comfirm_to_order"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:clickable="false"
         android:text="确定"
         android:textSize="25sp"
         android:gravity="center"

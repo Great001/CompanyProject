@@ -45,7 +45,7 @@ public class QuickPrint extends AppCompatActivity implements AddedfilesAdapter.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_print);
 
-        if(savedInstanceState!=null&&savedInstanceState.getStringArrayList(SELECTED_FILES_KEY)==null){
+        if(savedInstanceState!=null&&savedInstanceState.getStringArrayList(SELECTED_FILES_KEY)!=null){
             files=savedInstanceState.getStringArrayList(SELECTED_FILES_KEY);
         }
 
@@ -88,71 +88,24 @@ public class QuickPrint extends AppCompatActivity implements AddedfilesAdapter.O
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //JSONObject jsonObject = new JSONObject();
-        //String path=Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"lhc.docx";
-        //StringBuilder strBuilder = new StringBuilder();
         if (requestCode == NavigateUtil.BROWSE_DOCUMENT_REQUEST&&resultCode==BrowserDocuments.RESULT_CODE) {
             files.addAll(data.getStringArrayListExtra(SELECTED_FILES_KEY));
-            if(files!=null){
-                adapter=new AddedfilesAdapter(QuickPrint.this,files,this);
+            if(files!=null) {
+                adapter = new AddedfilesAdapter(QuickPrint.this, files, this);
                 mLvAddFiles.setAdapter(adapter);
                 mTvComfirm.setBackgroundColor(getResources().getColor(R.color.green));
-//                adapter.notifyDataSetChanged();
+                mTvComfirm.setClickable(true);
             }
-            /*
-            if (data != null) {
-                Uri uri = data.getData();
-                String str = Uri.decode(uri.toString());
-                final String filepath=str.substring(7,str.length());
-                mTvResult.setText(filepath);
-
-                File file=new File(filepath);
-                final BmobFile bmobFile=new BmobFile(file);
-               bmobFile.uploadblock(new UploadFileListener() {
-                   @Override
-                   public void done(BmobException e) {
-                       if(e==null){
-                           String url=bmobFile.getFileUrl();
-                           mTvResult.setText(url);
-                           ToastUtil.showToast(QuickPrint.this,"上传成功");
-                           mProgressBar.setVisibility(View.GONE);
-                           mTvAddeFile.setVisibility(View.VISIBLE);
-
-                           String [] p=filepath.split("/");
-                           int len=p.length;
-                           mTvAddeFile.setText(p[len-1]);
-
-
-                           UserProfile user= BmobUser.getCurrentUser(UserProfile.class);
-                           List<String> files=user.getFiles();
-                           if(files==null){
-                               files=new ArrayList<String>();
-                           }
-                           files.add(url);
-                           String id= user.getObjectId();
-                           user.setFiles(files);
-                           user.update(id, new UpdateListener() {
-                               @Override
-                               public void done(BmobException e) {
-
-                               }
-                           });
-                       }
-                       else{
-                           ToastUtil.showToast(QuickPrint.this,"上传失败");
-                       }
-                   }
-
-                   @Override
-                   public void onProgress(Integer value) {
-                       super.onProgress(value);
-                       mProgressBar.setProgress(value);
-                   }
-               });
-            }*/
-
         }
 
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState!=null){
+            files=savedInstanceState.getStringArrayList(SELECTED_FILES_KEY);
+        }
     }
 
     @Override
@@ -160,13 +113,6 @@ public class QuickPrint extends AppCompatActivity implements AddedfilesAdapter.O
         files.remove(pos);
         adapter.notifyDataSetChanged();
     }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
