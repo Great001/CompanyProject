@@ -1,9 +1,11 @@
 package com.lhc.android.great.Fragment;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -31,7 +33,7 @@ public class homepageFragment extends Fragment {
     private LinearLayout mLlHpPrint,mLlHpStore,mLlHpSecondBook;
     private ImageView mIvDotOne,mIvDotTwo,mIvDotThree,mIvDotFour,mIvDotFive;
     private int mImagesCounts;
-    private int currentItem=0;
+    private int currentItem=1;
 
     @Nullable
     @Override
@@ -63,31 +65,38 @@ public class homepageFragment extends Fragment {
             }
         });
 
-        mIvDotFive=(ImageView)view.findViewById(R.id.iv_dot_five);
+//        mIvDotFive=(ImageView)view.findViewById(R.id.iv_dot_five);
         mIvDotOne=(ImageView)view.findViewById(R.id.iv_dot_one);
         mIvDotTwo=(ImageView)view.findViewById(R.id.iv_dot_two);
-        mIvDotFour=(ImageView)view.findViewById(R.id.iv_dot_four);
-        mIvDotThree=(ImageView)view.findViewById(R.id.iv_dot_three);
+//        mIvDotFour=(ImageView)view.findViewById(R.id.iv_dot_four);
+//        mIvDotThree=(ImageView)view.findViewById(R.id.iv_dot_three);
 
 
+        ViewGroup.LayoutParams params=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         Context context=getActivity();
         List<ImageView> list=new ArrayList<>();
         ImageView ivOne=new ImageView(context);
-        ivOne.setImageResource(R.drawable.adver_one);
-        list.add(ivOne);
+        ivOne.setLayoutParams(params);
+        ivOne.setImageResource(R.drawable.one);
         ImageView ivTwo=new ImageView(context);
-        ivTwo.setImageResource(R.drawable.adver_two);
+        ivTwo.setImageResource(R.drawable.two);
+        ivTwo.setLayoutParams(params);
         list.add(ivTwo);
+        list.add(ivOne);
+        /*
         ImageView ivThree=new ImageView(context);
-        ivThree.setImageResource(R.drawable.adver_three);
+        ivThree.setImageResource(R.drawable.avatar_girl);
         list.add(ivThree);
         ImageView ivFour=new ImageView(context);
-        ivFour.setImageResource(R.drawable.adver_four);
+        ivFour.setImageResource(R.drawable.avatar_boy);
         list.add(ivFour);
         ImageView ivFive=new ImageView(context);
-        ivFive.setImageResource(R.drawable.adver_five);
+        ivFive.setImageResource(R.drawable.four);
         list.add(ivFive);
+//        list.add(ivOne);
+//        list.add(0,ivFive);*/
         mImagesCounts =list.size();
+
         ImageViewPagerAdapter adapter=new ImageViewPagerAdapter(getActivity(),list);
         if(adapter!=null) {
             mVpAdverImages.setAdapter(adapter);
@@ -104,9 +113,9 @@ public class homepageFragment extends Fragment {
             public void onPageSelected(int position) {
                 mIvDotOne.setImageResource(R.drawable.viewpage_dot_white);
                 mIvDotTwo.setImageResource(R.drawable.viewpage_dot_white);
-                mIvDotThree.setImageResource(R.drawable.viewpage_dot_white);
-                mIvDotFour.setImageResource(R.drawable.viewpage_dot_white);
-                mIvDotFive.setImageResource(R.drawable.viewpage_dot_white);
+//                mIvDotThree.setImageResource(R.drawable.viewpage_dot_white);
+//                mIvDotFour.setImageResource(R.drawable.viewpage_dot_white);
+//                mIvDotFive.setImageResource(R.drawable.viewpage_dot_white);
                 switch (position){
                     case 0:
                         mIvDotOne.setImageResource(R.drawable.viewpage_dot_red);
@@ -116,17 +125,6 @@ public class homepageFragment extends Fragment {
                         mIvDotTwo.setImageResource(R.drawable.viewpage_dot_red);
                         currentItem=1;
                         break;
-                    case 2:
-                        mIvDotThree.setImageResource(R.drawable.viewpage_dot_red);
-                        currentItem=2;
-                        break;
-                    case 3:
-                        mIvDotFour.setImageResource(R.drawable.viewpage_dot_red);
-                        currentItem=3;
-                        break;
-                    case 4:
-                        mIvDotFive.setImageResource(R.drawable.viewpage_dot_red);
-                        currentItem=4;
                     default:break;
                 }
             }

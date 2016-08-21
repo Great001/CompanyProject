@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 
 import java.util.List;
@@ -22,6 +23,12 @@ public class ImageViewPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
+        ImageView view=mListImage.get(position);
+        ViewParent vp=view.getParent();
+        if(vp!=null){
+           ViewGroup parent=(ViewGroup)vp;
+            parent.removeView(view);
+        }
         container.addView(mListImage.get(position),0);
         return mListImage.get(position);
     }
@@ -43,7 +50,7 @@ public class ImageViewPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView(mListImage.get(position));
+//        container.removeView(mListImage.get(position));
     }
 
 

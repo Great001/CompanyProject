@@ -1,5 +1,7 @@
 package com.lhc.android.great.Activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
@@ -8,15 +10,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.lhc.android.great.Adapter.MyFilesAdapter;
 import com.lhc.android.great.Adapter.ToPrintFilesAdapter;
 import com.lhc.android.great.Bmod.UserProfile;
 import com.lhc.android.great.R;
+import com.lhc.android.great.Utils.NavigateUtil;
 import com.lhc.android.great.Utils.ToastUtil;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,40 +50,75 @@ public class MyFileActivity extends AppCompatActivity {
             }
         });
 
-
         mLvMyfiles = (ListView) findViewById(R.id.lv_myfiles);
 
         final UserProfile user = BmobUser.getCurrentUser(UserProfile.class);
-        getUrls(user.getFiles());
-        getNames(user.getFiles());
-        if (myfiles != null) {
-            MyFilesAdapter adapter = new MyFilesAdapter(this, myfiles);
-            mLvMyfiles.setAdapter(adapter);
+
+        if(user!=null) {
+            getUrls(user.getFiles());
+            getNames(user.getFiles());
+            if (myfiles != null) {
+                MyFilesAdapter adapter = new MyFilesAdapter(this, myfiles);
+                mLvMyfiles.setAdapter(adapter);
+            }
+        }else{
+            ToastUtil.showToast(MyFileActivity.this,"用户未登录");
+            NavigateUtil.navigateToLoginActivity(MyFileActivity.this);
         }
 
         mLvMyfiles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String root = Environment.getExternalStorageDirectory().getAbsolutePath();
-                File file = new File(root + File.separator + "校园代步");
-                if(!file.exists()){
-                    file.mkdirs();
-                }
-                BmobFile bfile = new BmobFile(myfiles.get(i), "", fileUrls.get(i));
-                bfile.download(file, new DownloadFileListener() {
+            public void onItemClick(final AdapterView<?> adapterView, View view, int i, long l) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MyFileActivity.this);
+                builder.setTitle(R.string.comfirm_to_download);
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
-                    public void done(String s, BmobException e) {
-                        if(e==null){
-                            ToastUtil.showToast(MyFileActivity.this,"下载成功");
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        final int pos = i;
+                        final ProgressBar progressBar = (ProgressBar) adapterView.getChildAt(pos - adapterView.getFirstVisiblePosition()).findViewById(R.id.download_progress);
+                        String root = Environment.getExternalStorageDirectory().getAbsolutePath();
+                        File file = new File(root + File.separator + "校园代步");
+                        if (!file.exists()) {
+                            file.mkdirs();
                         }
+                        File savefile = new File(file.getPath() + File.separator + myfiles.get(i));
+                        if (!savefile.exists()) {
+                            try {
+                                savefile.createNewFile();
+                            } catch (IOException e) {
+                            }
+                        }
+                        BmobFile bfile = new BmobFile(myfiles.get(i), "", fileUrls.get(i));
+                        bfile.download(savefile, new DownloadFileListener() {
+                            @Override
+                            public void done(String s, BmobException e) {
+                                if (e == null) {
+                                    ToastUtil.showToast(MyFileActivity.this, "下载成功");
+                                    ImageView ivComplete = (ImageView) adapterView.getChildAt(pos - adapterView.getFirstVisiblePosition()).findViewById(R.id.iv_download_file_complete);
+                                    ivComplete.setVisibility(View.VISIBLE);
+                                }
+                            }
+
+                            @Override
+                            public void onProgress(Integer integer, long l) {
+                                progressBar.setProgress((int) l);
+                            }
+                        });
                     }
 
-                    @Override
-                    public void onProgress(Integer integer, long l) {
 
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
                     }
                 });
+
+                builder.create().show();
             }
+
         });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -106,7 +147,4 @@ public class MyFileActivity extends AppCompatActivity {
             myfiles.add(parts[1]);
         }
     }
-
-
-
 }

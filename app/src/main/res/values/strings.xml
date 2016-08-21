@@ -20,6 +20,7 @@
 
     <string name="log_in">登录</string>
     <string name="regist_in">注册</string>
+    <string name="sign_up_quick">快速注册</string>
 
     <!--quick print page-->
     <string name="qp_welcome">欢迎光临极速打印店</string>
@@ -37,7 +38,7 @@
     <string name="login_tips">登录</string>
     <string name="login_name">账号</string>
     <string name="login_password">密码</string>
-    <string name="login_name_hint">学号|手机号</string>
+    <string name="login_name_hint">手机号</string>
 
     <string name="login_confirm">登录</string>
     <string name="login_cancel">取消</string>
@@ -45,20 +46,22 @@
     <string name="regist_in_now">马上注册</string>
     <string name="find_back_password">找回密码</string>
 
-    <string name="tips_account_is_not_valid">账户填写不规范，请检查并重新填写！</string>
+    <string name="tips_account_is_not_valid">账号填写不规范，请检查并重新填写！</string>
     <string name="tips_password_can_not_empty">密码不能为空！</string>
     <string name="tips_account_can_not_empty">"账号不能为空"</string>
     <string name="tips_password_require_lens">密码应6-18位</string>
 
     <!--regist activity-->
-    <string name="name">姓名</string>
+    <string name="school_id">学号</string>
+    <string name="account">账号</string>
+    <string name="nickname">昵称</string>
     <string name="sex">性别</string>
     <string name="school">学校</string>
     <string name="major">专业</string>
     <string name="grade">年级</string>
-    <string name="address">地址</string>
-    <string name="phone_number">电话</string>
-    <string name="title_activity_basic">basic</string>
+    <string name="common_address">常用地址</string>
+    <string name="phone_number">手机号码</string>
+    <string name="email">邮箱</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -72,4 +75,15 @@
 
     <string name="browse_documents">选择文档</string>
     <string name="settlement">确认订单</string>
+    <string name="user_info_display">个人信息</string>
+    <string name="complete_userinfo">完善个人资料</string>
+
+    <string name="comfirm_to_download">确认下载</string>
+
+    <string name="tip_to_input_phone_number">请输入手机号码快速注册:</string>
+    <string name="must_input">必填</string>
+    <string name="choose_to_input">选填</string>
+    <string name="tip_address">必填</string>
+    <string name="complete">提交</string>
+    <string name="set_password">设置密码</string>
 </resources>

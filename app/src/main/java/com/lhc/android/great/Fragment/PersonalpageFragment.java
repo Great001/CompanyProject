@@ -60,13 +60,13 @@ public class PersonalpageFragment extends Fragment {
             String nickname=user.getNickname();
             mTvUsername.setText(username);
             mTvNickname.setText(nickname);
-            mIvAvatar.setImageResource(user.getSex()==0?R.drawable.avatar_boy:R.drawable.avatar_girl);
+            mIvAvatar.setImageResource(user.getSex()=="男"?R.drawable.avatar_boy:R.drawable.avatar_girl);
         }
 
         mIvAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavigateUtil.navigateToUserInfoActivity(getActivity());
+                NavigateUtil.navigateToUserInfoPage(getActivity());
             }
         });
 
@@ -105,7 +105,7 @@ public class PersonalpageFragment extends Fragment {
         mTvRegist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavigateUtil.navigateToRegistActivity(getActivity());
+                NavigateUtil.navigateToSignupActivity(getActivity());
             }
         });
 

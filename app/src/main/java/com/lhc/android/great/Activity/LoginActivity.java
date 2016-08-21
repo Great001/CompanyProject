@@ -19,6 +19,7 @@ import com.lhc.android.great.Utils.ToastUtil;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.SaveListener;
 
 public class LoginActivity extends Activity {
@@ -53,8 +54,8 @@ public class LoginActivity extends Activity {
 
         user=BmobUser.getCurrentUser(UserProfile.class);
         if(user!=null){
-            mEtAccount.setText(user.getUsername());
-            if(user.getSex()==0) {
+            mEtAccount.setText(user.getMobilePhoneNumber());
+            if(user.getSex()=="男") {
                 mIvAvatar.setImageResource(R.drawable.avatar_boy);
             }else{
                 mIvAvatar.setImageResource(R.drawable.avatar_girl);
@@ -66,7 +67,7 @@ public class LoginActivity extends Activity {
         mBtnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name= mEtAccount.getText().toString();
+                String account= mEtAccount.getText().toString();
                 String pwd=mEtPwd.getText().toString();
 //                CheckAccount.checkName(name);
                 /*
@@ -74,29 +75,44 @@ public class LoginActivity extends Activity {
                     Toast.makeText(getApplicationContext(),R.string.tips_account_is_not_valid,Toast.LENGTH_SHORT).show();
                 }*/
 
-                if(TextUtils.isEmpty(name)){
+                if(TextUtils.isEmpty(account)){
                     ToastUtil.showToast(LoginActivity.this,R.string.tips_account_can_not_empty);
                 }
                 if(TextUtils.isEmpty(pwd)){
                     ToastUtil.showToast(LoginActivity.this,R.string.tips_password_can_not_empty);
                 }
 
-                if(!TextUtils.isEmpty(name)&&!TextUtils.isEmpty(pwd)){
-                        user.setUsername(name);
+                if(!TextUtils.isEmpty(account)&&!TextUtils.isEmpty(pwd)){
+                    /*
+                        user.setUsername(phoneNumber);
                         user.setPassword(pwd);
                         user.login(new SaveListener<UserProfile>() {
                             @Override
                             public void done(UserProfile userProfile, BmobException e) {
                                 if (e == null) {
-                                    ToastUtil.showToast(LoginActivity.this, "登录成功");
+                                ToastUtil.showToast(LoginActivity.this, "登录成功");
                                     userProfile.setLogined(true);
-                                    mIvAvatar.setImageResource(userProfile.getSex()==0?R.drawable.avatar_boy:R.drawable.avatar_girl);
+                                    mIvAvatar.setImageResource(userProfile.getSex()=="男"?R.drawable.avatar_boy:R.drawable.avatar_girl);
                                     onBackPressed();
+
                                 } else {
                                 }
                             }
 
-                        });
+                        });*/
+
+                    user.loginByAccount(account, pwd, new LogInListener<UserProfile>() {
+                        @Override
+                        public void done(UserProfile userProfile, BmobException e) {
+                            if(e==null) {
+                                ToastUtil.showToast(LoginActivity.this, "登录成功");
+                                userProfile.setLogined(true);
+                                mIvAvatar.setImageResource(userProfile.getSex() == null ? R.drawable.avatar_boy : R.drawable.avatar_girl);
+//                                onBackPressed();
+                                NavigateUtil.navigateToCompleUserInfoPage(LoginActivity.this);
+                            }
+                        }
+                    });
 
             }}
         });
@@ -113,7 +129,7 @@ public class LoginActivity extends Activity {
         mTvRegistNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavigateUtil.navigateToRegistActivity(LoginActivity.this);
+                NavigateUtil.navigateToSignupActivity(LoginActivity.this);
             }
         });
 

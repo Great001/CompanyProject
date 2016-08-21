@@ -39,7 +39,11 @@
         <activity android:name=".Activity.FindPasswordActivity" />
         <activity android:name=".Activity.UserInfoActivity" />
         <activity android:name=".Activity.BrowserDocuments" />
-        <activity android:name=".Activity.SettlemenActivity"></activity>
+        <activity android:name=".Activity.SettlemenActivity" />
+        <activity android:name=".Activity.UserInfo" />
+        <activity android:name=".Activity.CompleUserinfoActivity" />
+        <activity android:name=".Activity.SignupActivity" />
+        <activity android:name=".Activity.SetPasswordActivity"></activity>
     </application>
 
 </manifest>

@@ -33,4 +33,10 @@ public class CheckAccount {
         return isPasswordValid;
     }
 
+    public static boolean checkPhoneNumber(String number){
+        String regexNumber="^1[358][0-9]{9}$";
+        Pattern pattern=Pattern.compile(regexNumber);
+        return pattern.matcher(number).matches();
+    }
+
 }

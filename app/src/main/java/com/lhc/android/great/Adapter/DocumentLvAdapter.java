@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lhc.android.great.Activity.BrowserDocuments;
 import com.lhc.android.great.R;
 
 import java.io.File;
@@ -16,13 +17,20 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/8/14.
  */
-public class DocumentLvAdapter extends BaseAdapter {
-    List<String> files;
-    Context context;
+public class DocumentLvAdapter extends BaseAdapter implements BrowserDocuments.OnItemSelectListener{
+    private List<String> files;
+    private Context context;
+    private boolean flags[];
+
 
     public DocumentLvAdapter(Context context,List<String> files){
         this.context=context;
         this.files=files;
+        int len=files.size();
+        flags=new boolean[len];
+        for(int i=0;i<len;i++){
+            flags[i]=false;
+        }
     }
 
     @Override
@@ -48,13 +56,20 @@ public class DocumentLvAdapter extends BaseAdapter {
             holder=new myViewHolder();
             holder.filename=(TextView)view.findViewById(R.id.tv_document_name);
             holder.ivCheck=(ImageView)view.findViewById(R.id.iv_document_selected);
+            holder.ivCheck.setVisibility(View.INVISIBLE);
             view.setTag(holder);
-        }else{
-            holder=(myViewHolder) view.getTag();
+            }else{
+                holder=(myViewHolder) view.getTag();
+            if(flags[i]){
+                holder.ivCheck.setVisibility(View.VISIBLE);
+            }
+            else{
+                holder.ivCheck.setVisibility(View.INVISIBLE);
+            }
         }
         String filename=getName(files.get(i));
         holder.filename.setText(filename);
-        holder.ivCheck.setVisibility(View.GONE);
+
         return view;
     }
 
@@ -74,4 +89,13 @@ public class DocumentLvAdapter extends BaseAdapter {
         }
     }
 
+    @Override
+    public void onItemSelect(int position) {
+        flags[position]=true;
+    }
+
+    @Override
+    public void onItemSelectCancel(int position) {
+        flags[position]=false;
+    }
 }

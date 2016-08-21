@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.lhc.android.great.Activity.AboutUsActivity;
 import com.lhc.android.great.Activity.AccountManageActivity;
 import com.lhc.android.great.Activity.BrowserDocuments;
+import com.lhc.android.great.Activity.CompleUserinfoActivity;
 import com.lhc.android.great.Activity.FindPasswordActivity;
 import com.lhc.android.great.Activity.LoginActivity;
 import com.lhc.android.great.Activity.MainActivity;
@@ -19,6 +20,8 @@ import com.lhc.android.great.Activity.RegistActivity;
 import com.lhc.android.great.Activity.SecondBookStore;
 import com.lhc.android.great.Activity.SetupActivity;
 import com.lhc.android.great.Activity.ShopStore;
+import com.lhc.android.great.Activity.SignupActivity;
+import com.lhc.android.great.Activity.UserInfo;
 import com.lhc.android.great.Activity.UserInfoActivity;
 
 import java.lang.reflect.InvocationTargetException;
@@ -141,14 +144,22 @@ public class NavigateUtil {
     }
 
 
+    public static void navigateToUserInfoPage(Activity activity){
+        Intent intent=new Intent();
+        intent.setClass(activity, UserInfo.class);
+        activity.startActivity(intent);
+    }
 
 
+    public static void navigateToCompleUserInfoPage(Activity activity){
+        Intent intent=new Intent();
+        intent.setClass(activity, CompleUserinfoActivity.class);
+        activity.startActivity(intent);
+    }
 
-
-
-
-
-
-
-
+    public static void navigateToSignupActivity(Activity activity){
+        Intent intent=new Intent();
+        intent.setClass(activity, SignupActivity.class);
+        activity.startActivity(intent);
+    }
 }

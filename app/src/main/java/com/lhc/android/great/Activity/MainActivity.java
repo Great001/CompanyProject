@@ -183,4 +183,10 @@ public class MainActivity extends AppCompatActivity {
 
         builder.create().show();
     }
+
+    @Override
+    public void onBackPressed() {
+        showComfirmDialog();
+        //super.onBackPressed();
+    }
 }

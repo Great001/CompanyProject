@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sign_up_item_height"
+            android:gravity="center_vertical"
+            android:text="@string/tip_to_input_phone_number"
+            android:textSize="@dimen/custom_text_size"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sign_up_item_height"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/et_input_phone_number"
+            android:phoneNumber="true"
+            android:singleLine="true"
+            android:textSize="@dimen/custom_text_size"/>
+
+            <Button
+                android:id="@+id/btn_signup_send_sms"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:layout_marginLeft="5dp"
+                android:text="发送验证码"
+                android:textSize="16sp"
+                android:background="@color/green"
+                android:textColor="@color/white"
+                android:clickable="false"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_input_sms_code"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sign_up_item_height"
+            android:orientation="horizontal"
+            android:layout_marginTop="25dp"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/et_input_sms_code"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="请输入验证码"
+                android:singleLine="true"
+                android:textSize="@dimen/custom_text_size"
+                />
+
+            <Button
+                android:id="@+id/btn_comfirm_to_sign_up"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:layout_marginLeft="5dp"
+                android:text="注册"
+                android:textSize="@dimen/custom_text_size"
+                android:textColor="@color/white"
+                android:background="@color/green"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -66,7 +66,7 @@ public class SettlemenActivity extends AppCompatActivity {
                 final int len=files.size();
                 for( int i=0;i<len;i++){
                     final int pos=i;
-                    final View itemView=mLv2PrintFiles.getChildAt(pos);
+                    final View itemView=mLv2PrintFiles.getChildAt(pos-mLv2PrintFiles.getFirstVisiblePosition());
                     String path=files.get(i);
                     final String fileName=getName(path);
                     final BmobFile bfile=new BmobFile(new File(path));
@@ -102,6 +102,8 @@ public class SettlemenActivity extends AppCompatActivity {
 
                         @Override
                         public void onProgress(Integer value) {
+
+                               ((ProgressBar)itemView.findViewById(R.id.upload_progress)).setVisibility(View.VISIBLE);
                                ((ProgressBar)itemView.findViewById(R.id.upload_progress)).setProgress(value);
                         }
                     });

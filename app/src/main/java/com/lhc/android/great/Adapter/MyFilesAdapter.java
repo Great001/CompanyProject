@@ -45,10 +45,10 @@ public class MyFilesAdapter extends BaseAdapter {
         myViewHolder holder;
         if(view==null){
             holder=new myViewHolder();
-            view= LayoutInflater.from(context).inflate(R.layout.upload_files_items,null);
-            holder.fileName=(TextView)view.findViewById(R.id.tv_upload_file_name);
-            holder.ivComplete=(ImageView)view.findViewById(R.id.iv_upload_file_complete);
-            holder.progress=(ProgressBar)view.findViewById(R.id.upload_progress);
+            view= LayoutInflater.from(context).inflate(R.layout.download_files_items,null);
+            holder.fileName=(TextView)view.findViewById(R.id.tv_download_file_name);
+            holder.ivComplete=(ImageView)view.findViewById(R.id.iv_download_file_complete);
+            holder.progress=(ProgressBar)view.findViewById(R.id.download_progress);
             view.setTag(holder);
         }
         else{

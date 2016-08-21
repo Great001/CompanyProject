@@ -9,14 +9,14 @@ import cn.bmob.v3.BmobUser;
  */
 public class UserProfile extends BmobUser {
     private String nickname;
-    private int sex;
+    private String sex;
     private String avatarUrl;
     private String Address;
 
     private int sid;
     private String school;
     private String major;
-    private int grade;
+    private String grade;
 
     private int integral;
     private List<String> files;
@@ -55,11 +55,11 @@ public class UserProfile extends BmobUser {
         this.files = files;
     }
 
-    public int getGrade() {
+    public String getGrade() {
         return grade;
     }
 
-    public void setGrade(Integer grade) {
+    public void setGrade(String grade) {
         this.grade = grade;
     }
 
@@ -67,7 +67,7 @@ public class UserProfile extends BmobUser {
         return integral;
     }
 
-    public void setIntegral(Integer integral) {
+    public void setIntegral(int integral) {
         this.integral = integral;
     }
 
@@ -95,11 +95,11 @@ public class UserProfile extends BmobUser {
         this.school = school;
     }
 
-    public int getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(Integer sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 
@@ -107,7 +107,7 @@ public class UserProfile extends BmobUser {
         return sid;
     }
 
-    public void setSid(Integer sid) {
+    public void setSid(int sid) {
         this.sid = sid;
     }
 }

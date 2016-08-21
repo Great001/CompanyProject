@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:textSize="@dimen/regist_custom_text_size"
-                android:text="@string/name"/>
+                android:text="@string/nickname"/>
 
             <EditText
                 android:id="@+id/et_regist_name"
@@ -156,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:textSize="@dimen/regist_custom_text_size"
-                android:text="@string/address"/>
+                android:text="@string/common_address"/>
 
             <EditText
                 android:id="@+id/et_regist_address"

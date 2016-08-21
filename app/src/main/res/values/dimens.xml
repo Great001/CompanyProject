@@ -7,7 +7,7 @@
     <dimen name="tab_navigate_iv_height">30dp</dimen>
 
     <!--home page-->
-    <dimen name="viewpager_image_height">180dp</dimen>
+    <dimen name="viewpager_image_height">200dp</dimen>
     <dimen name="homepage_item_height">40dp</dimen>
 
     <dimen name="home_page_item_icon_width">50dp</dimen>
@@ -36,8 +36,8 @@
     <dimen name="qp_welcome_text_size">25sp</dimen>
     <dimen name="qp_text_size">20sp</dimen>
 
-    <dimen name="qp_iv_file_added_width_height">50dp</dimen>
-    <dimen name="qp_progress_bar_height">16dp</dimen>
+    <dimen name="qp_iv_file_added_width_height">30dp</dimen>
+    <dimen name="qp_progress_bar_height">8dp</dimen>
 
     <!--login activity-->
     <dimen name="login_activiyt_item_text_size">20sp</dimen>
@@ -53,5 +53,26 @@
     <dimen name="regist_button_text_size">25sp</dimen>
 
     <!--documents-->
-    <dimen name="documents_item_height">80dp</dimen>
+    <dimen name="documents_item_height">60dp</dimen>
+    <dimen name="file_item_height">80dp</dimen>
+
+
+    <!--userinfo-->
+    <dimen name="userinfo_lv_item_height">50dp</dimen>
+    <dimen name="lv_divider_height">20dp</dimen>
+
+    <dimen name="lv_custom_text_size">20sp</dimen>
+
+    <!--sign up page-->
+    <dimen name="sign_up_item_height">50dp</dimen>
+    <dimen name="sign_up_number_size">30sp</dimen>
+    <dimen name="custom_text_size">25sp</dimen>
+    <dimen name="complete_info_item_text_width">90dp</dimen>
+
+    <dimen name="large_btn_width">300dp</dimen>
+    <dimen name="large_btn_height">40dp</dimen>
+
+    <dimen name="shop_goods_iv_width_height">90dp</dimen>
+    <dimen name="shop_goods_item_height">90dp</dimen>
+    <dimen name="shop_goods_property_width">150dp</dimen>
 </resources>

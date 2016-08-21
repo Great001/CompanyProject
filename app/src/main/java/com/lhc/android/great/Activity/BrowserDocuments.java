@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ public class BrowserDocuments extends AppCompatActivity {
     public static final int REQUEST_CODE=10;
     public static final int RESULT_CODE = 11;
     public static final String KEY_BROWSED_FILES="browsed files";
+    private OnItemSelectListener mItemSelectListener;
 
     private LinearLayout mLlBack2Root;
     private ListView mLvDocuments;
@@ -74,6 +76,7 @@ public class BrowserDocuments extends AppCompatActivity {
         if(savedInstanceState!=null&&savedInstanceState.getStringArrayList(KEY_BROWSED_FILES)!=null) {
             files = savedInstanceState.getStringArrayList(KEY_BROWSED_FILES);
             adapter = new DocumentLvAdapter(BrowserDocuments.this, files);
+
             mLvDocuments.setAdapter(adapter);
         }
         else {
@@ -98,6 +101,7 @@ public class BrowserDocuments extends AppCompatActivity {
                         public void run() {
                             dialog.dismiss();
                             adapter = new DocumentLvAdapter(BrowserDocuments.this, files);
+                            mItemSelectListener=adapter;
                             mLvDocuments.setAdapter(adapter);
                         }
                     });
@@ -119,13 +123,16 @@ public class BrowserDocuments extends AppCompatActivity {
         mLvDocuments.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ImageView ivSelect=(ImageView) mLvDocuments.getChildAt(i-mLvDocuments.getFirstVisiblePosition()).findViewById(R.id.iv_document_selected);
                 if (!flags[i]) {
                     count++;
-                    view.findViewById(R.id.iv_document_selected).setVisibility(View.VISIBLE);
+                    mItemSelectListener.onItemSelect(i);
+                    ivSelect.setVisibility(View.VISIBLE);
                     flags[i] = true;
                 } else {
                     count--;
-                    view.findViewById(R.id.iv_document_selected).setVisibility(View.GONE);
+                    mItemSelectListener.onItemSelectCancel(i);
+                    ivSelect.setVisibility(View.GONE);
                     flags[i] = false;
                 }
 
@@ -167,4 +174,10 @@ public class BrowserDocuments extends AppCompatActivity {
         }
         super.onSaveInstanceState(outState);
     }
+
+    public interface OnItemSelectListener{
+        void onItemSelect(int position);
+        void onItemSelectCancel(int position);
+    }
+
 }
