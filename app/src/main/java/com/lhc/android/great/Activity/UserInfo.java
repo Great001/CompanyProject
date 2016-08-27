@@ -30,8 +30,8 @@ public class UserInfo extends AppCompatActivity {
         setContentView(R.layout.user_info);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.user_info_display);
+        setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.arrow_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,39 +43,6 @@ public class UserInfo extends AppCompatActivity {
 
         mLvUserInfo=(ListView)findViewById(R.id.lv_user_info);
 
-        UserProfile user=BmobUser.getCurrentUser(UserProfile.class);
-        if (user != null) {
-            mUserInfo.add("-1");
-            String nickname=user.getNickname()+"";
-            mUserInfo.add(nickname);
-            String username=user.getUsername()+"";
-            mUserInfo.add(username);
-            String sex=user.getSex()+"";
-            mUserInfo.add(sex);
-            mUserInfo.add("-1");
-            String phonenumber=user.getMobilePhoneNumber()+"";
-            mUserInfo.add(phonenumber);
-            String email=user.getEmail();
-            if(email!=null) {
-                mUserInfo.add(email);
-            }else{
-                mUserInfo.add("未填写");
-            }
-            mUserInfo.add("-1");
-            String address=user.getAddress()+"";
-            mUserInfo.add(address);
-            mUserInfo.add("-1");
-            String school=user.getSchool()+"";
-            mUserInfo.add(school);
-            String major=user.getMajor()+"";
-            mUserInfo.add(major);
-            String grade=user.getGrade()+"";
-            mUserInfo.add(grade);
-            mUserInfo.add("-1");
-            UserInfoAdapter adapter=new UserInfoAdapter(this,mUserInfo);
-            mLvUserInfo.setAdapter(adapter);
-        }
-
         mLvUserInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -83,6 +50,63 @@ public class UserInfo extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        UserProfile user=BmobUser.getCurrentUser(UserProfile.class);
+        if (user != null) {
+            mUserInfo.add("-1");
+            String nickname=user.getNickname()+"";
+            if(nickname==null){
+                nickname="未填写";
+            }
+            mUserInfo.add(nickname);
+            String sid=user.getSid()+"";
+            if (sid==null){
+                sid="未填写";
+            }
+            mUserInfo.add(sid);
+            String sex=user.getSex()+"";
+            if(sex==null){
+                sex="未填写";
+            }
+            mUserInfo.add(sex);
+            mUserInfo.add("-1");
+            String phonenumber=user.getMobilePhoneNumber()+"";
+            mUserInfo.add(phonenumber);
+            String email=user.getEmail();
+            if(email==null){
+                email="未填写";
+            }
+            mUserInfo.add(email);
+            mUserInfo.add("-1");
+            String address=user.getAddress()+"";
+            if(address==null){
+                address="未填写";
+            }
+            mUserInfo.add(address);
+            mUserInfo.add("-1");
+            String school=user.getSchool()+"";
+            if(school==null){
+                school="未填写";
+            }
+            mUserInfo.add(school);
+            String major=user.getMajor()+"";
+            if(major==null){
+                major="未填写";
+            }
+            mUserInfo.add(major);
+            String grade=user.getGrade()+"";
+            if(grade==null){
+                grade="未填写";
+            }
+            mUserInfo.add(grade);
+            mUserInfo.add("-1");
+            UserInfoAdapter adapter=new UserInfoAdapter(this,mUserInfo);
+            mLvUserInfo.setAdapter(adapter);
+        }
     }
 
     @Override

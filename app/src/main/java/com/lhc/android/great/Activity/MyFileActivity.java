@@ -40,6 +40,7 @@ public class MyFileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_file);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.myfiles);
         toolbar.setNavigationIcon(R.drawable.arrow_back);
@@ -62,23 +63,23 @@ public class MyFileActivity extends AppCompatActivity {
                 mLvMyfiles.setAdapter(adapter);
             }
         }else{
-            ToastUtil.showToast(MyFileActivity.this,"用户未登录");
-            NavigateUtil.navigateToLoginActivity(MyFileActivity.this);
+            ToastUtil.showToast(MyFileActivity.this,R.string.user_not_login);
+//            NavigateUtil.navigateToLoginActivity(MyFileActivity.this);
         }
 
         mLvMyfiles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> adapterView, View view, int i, long l) {
+                final int pos = i;
                 AlertDialog.Builder builder = new AlertDialog.Builder(MyFileActivity.this);
                 builder.setTitle(R.string.comfirm_to_download);
                 builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        final int pos = i;
                         final ProgressBar progressBar = (ProgressBar) adapterView.getChildAt(pos - adapterView.getFirstVisiblePosition()).findViewById(R.id.download_progress);
                         String root = Environment.getExternalStorageDirectory().getAbsolutePath();
-                        File file = new File(root + File.separator + "校园代步");
+                        File file = new File(root + File.separator + getString(R.string.app_name));
                         if (!file.exists()) {
                             file.mkdirs();
                         }
@@ -132,6 +133,7 @@ public class MyFileActivity extends AppCompatActivity {
     }
 
 
+    //获取文件的路径
     public void getUrls(List<String> list){
         int len=list.size();
         for(int i=0;i<len;i++){
@@ -140,6 +142,7 @@ public class MyFileActivity extends AppCompatActivity {
         }
     }
 
+    //获取文件名
     public void getNames(List<String> list){
         int len=list.size();
         for(int i=0;i<len;i++){

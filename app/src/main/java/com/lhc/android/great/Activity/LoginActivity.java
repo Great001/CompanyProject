@@ -1,6 +1,8 @@
 package com.lhc.android.great.Activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -55,10 +57,12 @@ public class LoginActivity extends Activity {
         user=BmobUser.getCurrentUser(UserProfile.class);
         if(user!=null){
             mEtAccount.setText(user.getMobilePhoneNumber());
-            if(user.getSex()=="男") {
-                mIvAvatar.setImageResource(R.drawable.avatar_boy);
+            if(user.getSex()==null){
+                mIvAvatar.setImageResource(R.drawable.header_default);
+            }else if(user.getSex()=="男"){
+                mIvAvatar.setImageResource(R.drawable.header_boy);
             }else{
-                mIvAvatar.setImageResource(R.drawable.avatar_girl);
+                mIvAvatar.setImageResource(R.drawable.header_girl);
             }
         }else{
             user=new UserProfile();
@@ -69,11 +73,6 @@ public class LoginActivity extends Activity {
             public void onClick(View view) {
                 String account= mEtAccount.getText().toString();
                 String pwd=mEtPwd.getText().toString();
-//                CheckAccount.checkName(name);
-                /*
-                if(!CheckAccount.isNameValid){
-                    Toast.makeText(getApplicationContext(),R.string.tips_account_is_not_valid,Toast.LENGTH_SHORT).show();
-                }*/
 
                 if(TextUtils.isEmpty(account)){
                     ToastUtil.showToast(LoginActivity.this,R.string.tips_account_can_not_empty);
@@ -84,6 +83,7 @@ public class LoginActivity extends Activity {
 
                 if(!TextUtils.isEmpty(account)&&!TextUtils.isEmpty(pwd)){
                     /*
+                    //普通的用户注册
                         user.setUsername(phoneNumber);
                         user.setPassword(pwd);
                         user.login(new SaveListener<UserProfile>() {
@@ -107,9 +107,35 @@ public class LoginActivity extends Activity {
                             if(e==null) {
                                 ToastUtil.showToast(LoginActivity.this, "登录成功");
                                 userProfile.setLogined(true);
-                                mIvAvatar.setImageResource(userProfile.getSex() == null ? R.drawable.avatar_boy : R.drawable.avatar_girl);
-//                                onBackPressed();
-                                NavigateUtil.navigateToCompleUserInfoPage(LoginActivity.this);
+                                String sex=userProfile.getSex();
+                                if(sex==null){
+                                    mIvAvatar.setImageResource(R.drawable.header_default);
+                                }else if(sex=="男"){
+                                    mIvAvatar.setImageResource(R.drawable.header_boy);
+                                }else{
+                                    mIvAvatar.setImageResource(R.drawable.header_girl);
+                                }
+                                AlertDialog.Builder builder=new AlertDialog.Builder(LoginActivity.this);
+                                builder.setTitle("立即完善个人资料?");
+                                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                                NavigateUtil.navigateToCompleUserInfoPage(LoginActivity.this);
+
+                                            }
+                                        }
+                                );
+                                builder.setNegativeButton("不了", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                        onBackPressed();
+                                    }
+                                });
+
+                                AlertDialog dialog=builder.create();
+                                dialog.show();
                             }
                         }
                     });

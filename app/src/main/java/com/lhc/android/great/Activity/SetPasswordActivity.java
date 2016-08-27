@@ -16,6 +16,7 @@ import com.lhc.android.great.Utils.ToastUtil;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -23,10 +24,10 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class SetPasswordActivity extends AppCompatActivity {
 
-    public static final String KEY_USER_ID="objectId";
+    public static final String KEY_USER_ID="objectid";
     private EditText mEtInput,mEtComfirm;
     private Button mBtnComfirm;
-    private String objectId;
+//    private String objectId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +44,8 @@ public class SetPasswordActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent=getIntent();
-        objectId=intent.getStringExtra(SignupActivity.KEY_USER_ID);
+//        Intent intent=getIntent();
+//        objectId=intent.getStringExtra(SignupActivity.KEY_USER_ID);
 
         mEtComfirm=(EditText)findViewById(R.id.et_comfirm_password);
         mEtInput=(EditText)findViewById(R.id.et_input_password);
@@ -57,23 +58,17 @@ public class SetPasswordActivity extends AppCompatActivity {
                 if (isPwdValid) {
                     String comfirmPwd = mEtComfirm.getText().toString();
                     if (inputPwd.equals(comfirmPwd)) {
-                        UserProfile user = new UserProfile();
-                        BmobQuery<UserProfile> query = new BmobQuery<UserProfile>();
-                        query.getObject(objectId, new QueryListener<UserProfile>() {
+                        final UserProfile user=BmobUser.getCurrentUser(UserProfile.class);
+                        user.updateCurrentUserPassword("123456", inputPwd, new UpdateListener() {
                             @Override
-                            public void done(UserProfile userProfile, BmobException e) {
-                                userProfile.updateCurrentUserPassword("123456", inputPwd, new UpdateListener() {
-                                    @Override
-                                    public void done(BmobException e) {
-                                        if (e == null) {
-                                            ToastUtil.showToast(SetPasswordActivity.this, "密码设置成功");
-                                            NavigateUtil.navigateToLoginActivity(SetPasswordActivity.this);
-                                            SetPasswordActivity.this.finish();
-                                        } else {
-                                            ToastUtil.showToast(SetPasswordActivity.this, "密码设置失败");
-                                        }
-                                    }
-                                });
+                            public void done(BmobException e) {
+                                if(e==null) {
+                                    ToastUtil.showToast(SetPasswordActivity.this, "密码设置成功");
+                                    NavigateUtil.navigateToLoginActivity(SetPasswordActivity.this);
+                                    SetPasswordActivity.this.finish();
+                                }else{
+                                    ToastUtil.showToast(SetPasswordActivity.this,"密码设置失败");
+                                }
                             }
                         });
                     } else {
@@ -87,10 +82,11 @@ public class SetPasswordActivity extends AppCompatActivity {
     }
 
 
+    /*
     private void navigateToCompleteUserInfoPage(){
         Intent intent=new Intent();
         intent.setClass(this,CompleUserinfoActivity.class);
         intent.putExtra(KEY_USER_ID,objectId);
         startActivity(intent);
-    }
+    }*/
 }

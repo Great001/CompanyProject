@@ -68,8 +68,8 @@ public class homepageFragment extends Fragment {
 //        mIvDotFive=(ImageView)view.findViewById(R.id.iv_dot_five);
         mIvDotOne=(ImageView)view.findViewById(R.id.iv_dot_one);
         mIvDotTwo=(ImageView)view.findViewById(R.id.iv_dot_two);
+        mIvDotThree=(ImageView)view.findViewById(R.id.iv_dot_three);
 //        mIvDotFour=(ImageView)view.findViewById(R.id.iv_dot_four);
-//        mIvDotThree=(ImageView)view.findViewById(R.id.iv_dot_three);
 
 
         ViewGroup.LayoutParams params=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -81,12 +81,15 @@ public class homepageFragment extends Fragment {
         ImageView ivTwo=new ImageView(context);
         ivTwo.setImageResource(R.drawable.two);
         ivTwo.setLayoutParams(params);
+        ImageView ivThree=new ImageView(context);
+        ivThree.setLayoutParams(params);
+        ivThree.setImageResource(R.drawable.three);
+        list.add(ivThree);
         list.add(ivTwo);
         list.add(ivOne);
+        mImagesCounts =list.size();
+
         /*
-        ImageView ivThree=new ImageView(context);
-        ivThree.setImageResource(R.drawable.avatar_girl);
-        list.add(ivThree);
         ImageView ivFour=new ImageView(context);
         ivFour.setImageResource(R.drawable.avatar_boy);
         list.add(ivFour);
@@ -95,7 +98,7 @@ public class homepageFragment extends Fragment {
         list.add(ivFive);
 //        list.add(ivOne);
 //        list.add(0,ivFive);*/
-        mImagesCounts =list.size();
+
 
         ImageViewPagerAdapter adapter=new ImageViewPagerAdapter(getActivity(),list);
         if(adapter!=null) {
@@ -113,7 +116,7 @@ public class homepageFragment extends Fragment {
             public void onPageSelected(int position) {
                 mIvDotOne.setImageResource(R.drawable.viewpage_dot_white);
                 mIvDotTwo.setImageResource(R.drawable.viewpage_dot_white);
-//                mIvDotThree.setImageResource(R.drawable.viewpage_dot_white);
+                mIvDotThree.setImageResource(R.drawable.viewpage_dot_white);
 //                mIvDotFour.setImageResource(R.drawable.viewpage_dot_white);
 //                mIvDotFive.setImageResource(R.drawable.viewpage_dot_white);
                 switch (position){
@@ -124,6 +127,10 @@ public class homepageFragment extends Fragment {
                     case 1:
                         mIvDotTwo.setImageResource(R.drawable.viewpage_dot_red);
                         currentItem=1;
+                        break;
+                    case 2:
+                        mIvDotThree.setImageResource(R.drawable.viewpage_dot_red);
+                        currentItem=2;
                         break;
                     default:break;
                 }

@@ -18,6 +18,7 @@ import com.lhc.android.great.Activity.PersonalWalletActivity;
 import com.lhc.android.great.Activity.QuickPrint;
 import com.lhc.android.great.Activity.RegistActivity;
 import com.lhc.android.great.Activity.SecondBookStore;
+import com.lhc.android.great.Activity.SetPasswordActivity;
 import com.lhc.android.great.Activity.SetupActivity;
 import com.lhc.android.great.Activity.ShopStore;
 import com.lhc.android.great.Activity.SignupActivity;
@@ -132,7 +133,7 @@ public class NavigateUtil {
 
     public static void navigateToUserInfoActivity(Activity activity){
         Intent intent=new Intent();
-        intent.setClass(activity, UserInfoActivity.class);
+        intent.setClass(activity, UserInfo.class);
         activity.startActivity(intent);
     }
 
@@ -162,4 +163,11 @@ public class NavigateUtil {
         intent.setClass(activity, SignupActivity.class);
         activity.startActivity(intent);
     }
+
+    public static void navigateToChangePasswordPage(Activity activity){
+        Intent intent=new Intent();
+        intent.setClass(activity, SetPasswordActivity.class);
+        activity.startActivity(intent);
+    }
+
 }

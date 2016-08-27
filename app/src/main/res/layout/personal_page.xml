@@ -31,12 +31,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/pp_user_info_textsize"
-                android:text="20132100001"/>
+                android:text="帅哥/美女"/>
             <TextView
-                android:id="@+id/tv_logined_username"
+                android:id="@+id/tv_logined_sid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="张三"
+                android:text="20132100111"
                 android:textSize="@dimen/pp_user_info_textsize"/>
 
 

@@ -1,6 +1,5 @@
 package com.lhc.android.great.Fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,8 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.lhc.android.great.Activity.LoginActivity;
-import com.lhc.android.great.Activity.MainActivity;
 import com.lhc.android.great.Adapter.PersonalPageLvAdapter;
 import com.lhc.android.great.Bmod.UserProfile;
 import com.lhc.android.great.R;
@@ -36,7 +33,7 @@ public class PersonalpageFragment extends Fragment {
     private ImageView mIvAvatar;
     private Button mBtnLogout;
     private TextView mTvLogin,mTvRegist;
-    private TextView mTvUsername, mTvNickname;
+    private TextView mTvUserSid, mTvNickname;
 
 
     @Nullable
@@ -50,17 +47,27 @@ public class PersonalpageFragment extends Fragment {
         mIvAvatar=(ImageView)view.findViewById(R.id.iv_peosonal_page_avatar_);
         mTvLogin=(TextView)view.findViewById(R.id.tv_log_in);
         mTvRegist=(TextView)view.findViewById(R.id.tv_registe_in);
-        mTvUsername=(TextView)view.findViewById(R.id.tv_logined_username);
+        mTvUserSid=(TextView)view.findViewById(R.id.tv_logined_sid);
         mTvNickname =(TextView)view.findViewById(R.id.tv_logined_nickname);
 
 
         UserProfile user=BmobUser.getCurrentUser(UserProfile.class);
         if(user!=null){
-            String username=user.getUsername();
+            mIvAvatar.setClickable(true);
+            String sid=user.getSid()+"";
             String nickname=user.getNickname();
-            mTvUsername.setText(username);
+            String sex=user.getSex();
+            mTvUserSid.setText(sid);
             mTvNickname.setText(nickname);
-            mIvAvatar.setImageResource(user.getSex()=="男"?R.drawable.avatar_boy:R.drawable.avatar_girl);
+            if(sex==null){
+                mIvAvatar.setImageResource(R.drawable.header_default);
+            }else if(sex=="男"){
+                mIvAvatar.setImageResource(R.drawable.header_boy);
+            }else{
+                mIvAvatar.setImageResource(R.drawable.header_girl);
+            }
+        }else{
+            mIvAvatar.setClickable(false);
         }
 
         mIvAvatar.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +76,6 @@ public class PersonalpageFragment extends Fragment {
                 NavigateUtil.navigateToUserInfoPage(getActivity());
             }
         });
-
 
         mLvPp.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

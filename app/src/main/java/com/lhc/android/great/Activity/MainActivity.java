@@ -47,14 +47,14 @@ public class MainActivity extends AppCompatActivity {
 
         mToolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setTitle("校园代步");
-        mToolbar.setNavigationIcon(R.drawable.arrow_back);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        mToolbar.setTitle("     校园代步");
+//        mToolbar.setNavigationIcon(R.drawable.arrow_back);
+//        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                onBackPressed();
+//            }
+//        });
 
 
         mVpTab = (ViewPager) findViewById(R.id.vp_main);
@@ -122,10 +122,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        UserProfile user=BmobUser.getCurrentUser(UserProfile.class);
+        //检测、询问用户是否登录
+        UserProfile user= BmobUser.getCurrentUser(UserProfile.class);
         if (user==null){
-            NavigateUtil.navigateToLoginActivity(MainActivity.this);
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            builder.setMessage("你未处于登录状态，是否登录？");
+            builder.setPositiveButton("登录", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    NavigateUtil.navigateToLoginActivity(MainActivity.this);
+                }
+            });
+            builder.setNegativeButton("先看看", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            builder.create().show();
         }
     }
 
@@ -147,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.saoyisao:
                 showToast(R.string.saoyisao);
                 break;
-            case R.id.logout:
-               showComfirmDialog();
+            case R.id.change_password:
+               NavigateUtil.navigateToChangePasswordPage(MainActivity.this);
                 break;
             default:
                 break;

@@ -39,4 +39,10 @@ public class CheckAccount {
         return pattern.matcher(number).matches();
     }
 
+    public static boolean checkEmail(String email){
+        String regexEmail="^([a-z0-9A-Z]+[-|+|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+)(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?$";
+         Pattern pattern = Pattern.compile(regexEmail);
+        return pattern.matcher(email).matches();
+    }
+
 }

@@ -17,8 +17,12 @@ import com.lhc.android.great.Utils.CheckAccount;
 import com.lhc.android.great.Utils.NavigateUtil;
 import com.lhc.android.great.Utils.ToastUtil;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
@@ -31,8 +35,8 @@ public class SignupActivity extends AppCompatActivity {
     private Button mBtnSendSms,mBtnSignup;
     private LinearLayout mLlInputsms;
     private String phoneNumber;
-    private String smsCode;
     private String objectId;
+    private  int remainTime=60;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,18 +62,10 @@ public class SignupActivity extends AppCompatActivity {
         mEtPnumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence != null && charSequence.length() >= 11) {
-                    mBtnSendSms.setClickable(true);
-//                    mBtnSendSms.setBackgroundColor(getResources().getColor(R.color.green));
-                } else {
-                    mBtnSendSms.setClickable(false);
-//                    mBtnSendSms.setBackgroundColor(getResources().getColor(R.color.app_gray));
-                }
             }
 
             @Override
@@ -81,6 +77,7 @@ public class SignupActivity extends AppCompatActivity {
         mBtnSendSms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
+//                mLlInputsms.setVisibility(View.VISIBLE);
                 phoneNumber = mEtPnumber.getText().toString();
                 boolean isVaild = CheckAccount.checkPhoneNumber(phoneNumber);
                 if (isVaild) {
@@ -88,9 +85,30 @@ public class SignupActivity extends AppCompatActivity {
                         @Override
                         public void done(Integer integer, BmobException e) {
                             if (e == null) {
-                                smsCode = String.valueOf(integer);
-                                mLlInputsms.setVisibility(View.VISIBLE);
+                                //倒计时
+                               final  Timer timer=new Timer();
+                                timer.schedule(new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                remainTime--;
+                                                mBtnSendSms.setText("剩余"+remainTime+"秒");
+                                                if(remainTime<0){
+                                                    mBtnSendSms.setClickable(true);
+                                                    mBtnSendSms.setBackgroundColor(getResources().getColor(R.color.green));
+                                                    timer.cancel();
+                                                }
+                                            }
+                                        });
+                                    }
+                                },0,1000);
                                 mBtnSendSms.setClickable(false);
+                                mBtnSendSms.setBackgroundColor(getResources().getColor(R.color.app_gray));
+                                ToastUtil.showToast(SignupActivity.this,"验证码发送成功，请查收");
+                            }else{
+                                ToastUtil.showToast(SignupActivity.this,"验证码发送失败，请重新发送");
                             }
                         }
                     });
@@ -130,29 +148,39 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String smscode = mEtSmscode.getText().toString();
-//                if (smsCode.equals(smscode)) {
-                    UserProfile user = new UserProfile();
-                    String timeStamp = String.valueOf(System.currentTimeMillis() / 1000);
-                    int len=timeStamp.length();
-                    String userName = "Great" + timeStamp.substring(5,len);
-                    user.setMobilePhoneNumber(phoneNumber);
-//                  user.setMobilePhoneNumberVerified(true);
-                    user.setPassword("123456");
-                    user.setUsername(userName);
-                    user.signOrLogin(smscode, new SaveListener<UserProfile>() {
-                        @Override
-                        public void done(UserProfile userProfile, BmobException e) {
-                            if (e == null) {
-                                objectId = userProfile.getObjectId();
-                                //userProfile.setLogined(true);
-                                ToastUtil.showToast(SignupActivity.this, "注册成功");
-                                navigateToSetPasswordPage();
-                                SignupActivity.this.finish();
-                            }else{
-                                ToastUtil.showToast(SignupActivity.this, "注册失败");
-                            }
+
+                final UserProfile user = new UserProfile();
+                String timeStamp = String.valueOf(System.currentTimeMillis() / 1000);
+                int len=timeStamp.length();
+                //限定用户名
+                final String userName = "Great" + timeStamp.substring(5,len);
+                user.setMobilePhoneNumber(phoneNumber);
+                user.setPassword("123456"); //初始化密码为123456
+                user.setUsername(userName);
+                user.setNickname("帅哥/美女");
+                user.signOrLogin(smscode, new SaveListener<UserProfile>() {
+                    @Override
+                    public void done(UserProfile userProfile, BmobException e) {
+                        if (e == null) {
+                            objectId = userProfile.getObjectId();
+                            //注册成功后立即以初始密码登录
+                            userProfile.loginByAccount(userName, "123456", new LogInListener<UserProfile>() {
+                                @Override
+                                public void done(UserProfile userProfile, BmobException e) {
+                                    if(e!=null){
+                                        ToastUtil.showToast(SignupActivity.this,"出错啦，请检查网络");
+                                    }
+
+                                }
+                            });
+                            ToastUtil.showToast(SignupActivity.this, "注册成功");
+                            navigateToSetPasswordPage();
+                            SignupActivity.this.finish();
+                        }else{
+                            ToastUtil.showToast(SignupActivity.this, "注册失败");
                         }
-                    });
+                    }
+                });
 
             }
 

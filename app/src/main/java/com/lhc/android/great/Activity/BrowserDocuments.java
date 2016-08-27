@@ -23,11 +23,16 @@ import com.lhc.android.great.R;
 import com.lhc.android.great.Utils.BrowseFileUtil;
 import com.lhc.android.great.Utils.ToastUtil;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.net.URLDecoder;
@@ -69,44 +74,74 @@ public class BrowserDocuments extends AppCompatActivity {
 
         mTvComfirm = (TextView) findViewById(R.id.tv_selectd_file_confirm);
         mLvDocuments = (ListView) findViewById(R.id.lv_browse_documents);
-
         mLlBack2Root = (LinearLayout) findViewById(R.id.ll_back_to_root_dir);
 
 
         if(savedInstanceState!=null&&savedInstanceState.getStringArrayList(KEY_BROWSED_FILES)!=null) {
             files = savedInstanceState.getStringArrayList(KEY_BROWSED_FILES);
             adapter = new DocumentLvAdapter(BrowserDocuments.this, files);
-
             mLvDocuments.setAdapter(adapter);
         }
         else {
-            final ProgressDialog dialog = new ProgressDialog(BrowserDocuments.this);
-            dialog.setMessage("加载中");
-            dialog.setCancelable(false);
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.show();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    files = BrowseFileUtil.getDocuments();
+            Boolean isDocReady=getSharedPreferences("docs",MODE_PRIVATE).getBoolean("isDocReady",false);
+            if(!isDocReady) {
+                final ProgressDialog dialog = new ProgressDialog(BrowserDocuments.this);
+                dialog.setMessage("加载中...");
+                dialog.setCancelable(false);
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        files = BrowseFileUtil.getDocuments();
+                        SaveDocPath2File();
+                        SharedPreferences sp = getSharedPreferences("docs", MODE_PRIVATE);
+                        sp.edit().putBoolean("isDocReady", true).commit();
 
+                        //数组flag[]记录文档列表中的选择
+                        int len = files.size();
+                        flags = new boolean[len];
+                        for (int i = 0; i < len; i++) {
+                            flags[i] = false;
+                        }
+
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialog.dismiss();
+                                adapter = new DocumentLvAdapter(BrowserDocuments.this, files);
+                                mItemSelectListener = adapter;
+                                mLvDocuments.setAdapter(adapter);
+                            }
+                        });
+                    }
+                }).start();
+
+            } else{
+                ReadDocsFromFile();
+
+                if(files==null||files.size()<=0){
+                    getSharedPreferences("docs",MODE_PRIVATE).edit().putBoolean("isDocReady",false);
+                }else {
                     int len = files.size();
                     flags = new boolean[len];
                     for (int i = 0; i < len; i++) {
                         flags[i] = false;
                     }
-
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            dialog.dismiss();
                             adapter = new DocumentLvAdapter(BrowserDocuments.this, files);
-                            mItemSelectListener=adapter;
+                            mItemSelectListener = adapter;
                             mLvDocuments.setAdapter(adapter);
                         }
                     });
                 }
-            }).start();
+            }
+
+            /*
+
+            */
         }
 
             mLlBack2Root.setOnClickListener(new View.OnClickListener() {
@@ -179,5 +214,44 @@ public class BrowserDocuments extends AppCompatActivity {
         void onItemSelect(int position);
         void onItemSelectCancel(int position);
     }
+
+
+    //将扫描文件的路径存入缓存文件中
+    public void SaveDocPath2File(){
+        String savePath=getCacheDir().getPath()+File.separator+"docPath.txt";
+        File file=new File(savePath);
+        try{
+            if(!file.exists()){
+                file.createNewFile();
+            }
+            BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
+            int size=files.size();
+            for(int i=0;i<size;i++){
+                writer.write(files.get(i)+"\n");
+            }
+        }catch (IOException e){}
+    }
+
+
+    //从缓存文件中读取文档目录
+    public void ReadDocsFromFile(){
+        String savePath=getCacheDir().getPath()+File.separator+"docPath.txt";
+        File file=new File(savePath);
+        try{
+            BufferedReader reader=new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            while(true){
+                String path=reader.readLine();
+                if(path==null||path==""||path=="\n"){
+                    break;
+                }
+                files.add(path);
+            }
+        }catch (IOException e){
+
+        }
+
+
+    }
+
 
 }

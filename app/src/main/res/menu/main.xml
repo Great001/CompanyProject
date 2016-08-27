@@ -9,8 +9,8 @@
         android:title="@string/saoyisao"
         app:showAsAction="never"
         />
-    <item android:id="@+id/logout"
-        android:title="@string/logout"
+    <item android:id="@+id/change_password"
+        android:title="@string/change_password"
         app:showAsAction="never"/>
 
 </menu>
