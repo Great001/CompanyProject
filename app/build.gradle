@@ -30,11 +30,10 @@ repositories{
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-
     compile 'com.android.support:appcompat-v7:24.1.0'
     compile 'com.android.support:design:24.1.0'
     compile 'com.android.support:support-v4:24.1.0'
-
     compile 'cn.bmob.android:bmob-sdk:3.5.0'
     compile 'cn.bmob.android:http-legacy:1.0'
+    compile files('libs/universal-image-loader-1.9.5.jar')
 }

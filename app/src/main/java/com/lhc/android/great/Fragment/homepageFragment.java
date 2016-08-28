@@ -3,6 +3,7 @@ package com.lhc.android.great.Fragment;
 import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -13,16 +14,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
+import com.lhc.android.great.Activity.MainActivity;
+import com.lhc.android.great.Adapter.GoodsShowAdapter;
 import com.lhc.android.great.Adapter.ImageViewPagerAdapter;
+import com.lhc.android.great.Bmod.Goods;
 import com.lhc.android.great.R;
 import com.lhc.android.great.Utils.NavigateUtil;
+import com.lhc.android.great.Utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 
 /**
  * Created by Administrator on 2016/8/7.
@@ -32,8 +42,11 @@ public class homepageFragment extends Fragment {
     private ViewPager mVpAdverImages;
     private LinearLayout mLlHpPrint,mLlHpStore,mLlHpSecondBook;
     private ImageView mIvDotOne,mIvDotTwo,mIvDotThree,mIvDotFour,mIvDotFive;
+    private ListView mLvNews;
     private int mImagesCounts;
     private int currentItem=1;
+
+    private List<Goods> mGoodsList;
 
     @Nullable
     @Override
@@ -43,6 +56,40 @@ public class homepageFragment extends Fragment {
         mLlHpPrint=(LinearLayout)view.findViewById(R.id.ll_homepage_print);
         mLlHpStore=(LinearLayout)view.findViewById(R.id.ll_homepage_shopping_store);
         mLlHpSecondBook=(LinearLayout)view.findViewById(R.id.ll_homepage_sh_bstore);
+
+        mLvNews=(ListView)view.findViewById(R.id.lv_homepage_news);
+
+
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                BmobQuery<Goods> query=new BmobQuery<>();
+                query.addWhereEqualTo("property","goods");
+                query.findObjects(new FindListener<Goods>() {
+                    @Override
+                    public void done(List<Goods> list, BmobException e) {
+                        mGoodsList=list;
+                        if(mGoodsList!=null) {
+                            new Handler().post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    GoodsShowAdapter adapter = new GoodsShowAdapter(getActivity(), mGoodsList);
+                                    mLvNews.setAdapter(adapter);
+                                }
+                            });
+
+                        }
+
+                        if(e!=null){
+                            ToastUtil.showToast(getActivity(),"出错啦");
+                        }
+                    }
+                });
+            }
+        }).start();
+
+
+
 
         mLlHpPrint.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,9 +147,9 @@ public class homepageFragment extends Fragment {
 //        list.add(0,ivFive);*/
 
 
-        ImageViewPagerAdapter adapter=new ImageViewPagerAdapter(getActivity(),list);
-        if(adapter!=null) {
-            mVpAdverImages.setAdapter(adapter);
+        ImageViewPagerAdapter pageradapter=new ImageViewPagerAdapter(getActivity(),list);
+        if(pageradapter!=null) {
+            mVpAdverImages.setAdapter(pageradapter);
             mVpAdverImages.setCurrentItem(0);
         }
         mIvDotOne.setImageResource(R.drawable.viewpage_dot_red);

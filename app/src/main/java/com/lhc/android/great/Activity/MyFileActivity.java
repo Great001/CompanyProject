@@ -83,14 +83,14 @@ public class MyFileActivity extends AppCompatActivity {
                         if (!file.exists()) {
                             file.mkdirs();
                         }
-                        File savefile = new File(file.getPath() + File.separator + myfiles.get(i));
+                        File savefile = new File(file.getPath() + File.separator + myfiles.get(pos));
                         if (!savefile.exists()) {
                             try {
                                 savefile.createNewFile();
                             } catch (IOException e) {
                             }
                         }
-                        BmobFile bfile = new BmobFile(myfiles.get(i), "", fileUrls.get(i));
+                        BmobFile bfile = new BmobFile(myfiles.get(pos), "", fileUrls.get(pos));
                         bfile.download(savefile, new DownloadFileListener() {
                             @Override
                             public void done(String s, BmobException e) {

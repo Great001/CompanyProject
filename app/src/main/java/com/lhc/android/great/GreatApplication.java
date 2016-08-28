@@ -7,6 +7,8 @@ import com.lhc.android.great.Activity.BrowserDocuments;
 import com.lhc.android.great.Bmod.UserProfile;
 import com.lhc.android.great.Utils.BrowseFileUtil;
 import com.lhc.android.great.Utils.NavigateUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,55 +25,40 @@ import cn.bmob.v3.BmobUser;
  */
 public class GreatApplication extends Application {
 
+    public static final String DOCUMENT_SP_NAME="documents path";
     @Override
     public void onCreate() {
         super.onCreate();
 
-        if(!checkDocsExist()){
-            SharedPreferences sp=getSharedPreferences("docs",MODE_PRIVATE);
-            sp.edit().putBoolean("isDocReady",false).commit();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<String> documents = BrowseFileUtil.getDocuments();
-                SaveDocPath2File(documents);
-                SharedPreferences sp=getSharedPreferences("docs",MODE_PRIVATE);
-                sp.edit().putBoolean("isDocReady",true).commit();
-
-            }
-        }).start();
+        ImageLoaderConfiguration imageLoaderConfiguration=ImageLoaderConfiguration.createDefault(this);
+        ImageLoader.getInstance().init(imageLoaderConfiguration);
+        //app一启动就检测文档路径是否有扫描保存
+        SharedPreferences sp = getSharedPreferences(DOCUMENT_SP_NAME, MODE_APPEND);
+        int size = sp.getInt("size", -1);
+        if (size == -1) {
+            ArrayList<String> files=BrowseFileUtil.getDocuments();
+            SaveDocPath2SP(files);
         }
     }
 
-    //将扫描文件的路径存入缓存文件中
-    public void SaveDocPath2File(List<String> files){
-        String savePath=getCacheDir().getPath()+ File.separator+"docPath.txt";
-        File file=new File(savePath);
-        try{
-            if(!file.exists()){
-                file.createNewFile();
-            }
-            BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
-            int size=files.size();
-            for(int i=0;i<size;i++){
-                writer.write(files.get(0)+"\n");
-            }
-        }catch (IOException e){}
-    }
 
-    public boolean checkDocsExist(){
-        String savePath=getCacheDir().getPath()+ File.separator+"docPath.txt";
-        File file=new File(savePath);
-        if(file.exists()){
-            return true;
-        }else{
-            return false;
+    //将扫描到的文档路径存入到sharedpreference
+    public void SaveDocPath2SP(ArrayList<String> files){
+        SharedPreferences sp=getSharedPreferences(DOCUMENT_SP_NAME,MODE_APPEND);
+        SharedPreferences.Editor editor=sp.edit();
+        int size=files.size();
+        editor.putInt("size",size);
+        for(int i=0;i<size;i++){
+            String key=i+"";
+            String value=files.get(i);
+            editor.putString(key,value);
         }
-
+        editor.commit();
     }
-
-
-
 
 }
+
+
+
+
+

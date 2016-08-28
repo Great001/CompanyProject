@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
@@ -40,7 +41,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BrowserDocuments extends AppCompatActivity {
-
+    private static final  String SP_NAME="documents path";
+;
     public static final int REQUEST_CODE=10;
     public static final int RESULT_CODE = 11;
     public static final String KEY_BROWSED_FILES="browsed files";
@@ -54,7 +56,6 @@ public class BrowserDocuments extends AppCompatActivity {
     private boolean[] flags;
     private DocumentLvAdapter adapter;
     int count = 0;
-
     final Handler handler=new Handler();
 
     @Override
@@ -72,6 +73,7 @@ public class BrowserDocuments extends AppCompatActivity {
             }
         });
 
+
         mTvComfirm = (TextView) findViewById(R.id.tv_selectd_file_confirm);
         mLvDocuments = (ListView) findViewById(R.id.lv_browse_documents);
         mLlBack2Root = (LinearLayout) findViewById(R.id.ll_back_to_root_dir);
@@ -83,8 +85,8 @@ public class BrowserDocuments extends AppCompatActivity {
             mLvDocuments.setAdapter(adapter);
         }
         else {
-            Boolean isDocReady=getSharedPreferences("docs",MODE_PRIVATE).getBoolean("isDocReady",false);
-            if(!isDocReady) {
+            int size=readDocsFromSp();
+            if(size==-1) {
                 final ProgressDialog dialog = new ProgressDialog(BrowserDocuments.this);
                 dialog.setMessage("加载中...");
                 dialog.setCancelable(false);
@@ -94,9 +96,8 @@ public class BrowserDocuments extends AppCompatActivity {
                     @Override
                     public void run() {
                         files = BrowseFileUtil.getDocuments();
-                        SaveDocPath2File();
-                        SharedPreferences sp = getSharedPreferences("docs", MODE_PRIVATE);
-                        sp.edit().putBoolean("isDocReady", true).commit();
+                        SaveDocPath2SP();
+                        dialog.dismiss();
 
                         //数组flag[]记录文档列表中的选择
                         int len = files.size();
@@ -104,45 +105,39 @@ public class BrowserDocuments extends AppCompatActivity {
                         for (int i = 0; i < len; i++) {
                             flags[i] = false;
                         }
-
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                dialog.dismiss();
                                 adapter = new DocumentLvAdapter(BrowserDocuments.this, files);
                                 mItemSelectListener = adapter;
                                 mLvDocuments.setAdapter(adapter);
                             }
                         });
+
                     }
                 }).start();
-
-            } else{
-                ReadDocsFromFile();
-
-                if(files==null||files.size()<=0){
-                    getSharedPreferences("docs",MODE_PRIVATE).edit().putBoolean("isDocReady",false);
-                }else {
-                    int len = files.size();
-                    flags = new boolean[len];
-                    for (int i = 0; i < len; i++) {
-                        flags[i] = false;
-                    }
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapter = new DocumentLvAdapter(BrowserDocuments.this, files);
-                            mItemSelectListener = adapter;
-                            mLvDocuments.setAdapter(adapter);
-                        }
-                    });
-                }
             }
+            //主要执行的代码
+            else {
+                //数组flag[]记录文档列表中的选择
+                int len = files.size();
+                flags = new boolean[len];
+                for (int i = 0; i < len; i++) {
+                    flags[i] = false;
+                }
 
-            /*
-
-            */
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter = new DocumentLvAdapter(BrowserDocuments.this, files);
+                        mItemSelectListener = adapter;
+                        mLvDocuments.setAdapter(adapter);
+                    }
+                });
+            }
         }
+
+
 
             mLlBack2Root.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -150,7 +145,6 @@ public class BrowserDocuments extends AppCompatActivity {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     intent.setType("text/*");
                     startActivityForResult(intent, REQUEST_CODE);
-
                 }
             });
 
@@ -198,11 +192,6 @@ public class BrowserDocuments extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
     protected void onSaveInstanceState(Bundle outState) {
         if(files!=null){
             outState.putStringArrayList(KEY_BROWSED_FILES,files);
@@ -210,15 +199,31 @@ public class BrowserDocuments extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==REQUEST_CODE){
+            Uri uri=data.getData();
+            String path=uri.toString();
+            int len=path.length();
+            path=path.substring(7,len);
+            selectFiles.add(path);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
     public interface OnItemSelectListener{
         void onItemSelect(int position);
         void onItemSelectCancel(int position);
     }
 
 
+
+
     //将扫描文件的路径存入缓存文件中
     public void SaveDocPath2File(){
-        String savePath=getCacheDir().getPath()+File.separator+"docPath.txt";
+        String savePath=getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getPath()+File.separator+"docPath.txt";
         File file=new File(savePath);
         try{
             if(!file.exists()){
@@ -229,7 +234,11 @@ public class BrowserDocuments extends AppCompatActivity {
             for(int i=0;i<size;i++){
                 writer.write(files.get(i)+"\n");
             }
-        }catch (IOException e){}
+            writer.flush();
+            writer.close();
+        }catch (IOException e){
+
+        }
     }
 
 
@@ -246,11 +255,37 @@ public class BrowserDocuments extends AppCompatActivity {
                 }
                 files.add(path);
             }
-        }catch (IOException e){
+        }catch (IOException e) {
 
         }
 
+    }
 
+    //将扫描到的文档路径存入到sharedpreference
+    public void SaveDocPath2SP(){
+        SharedPreferences sp=getSharedPreferences(SP_NAME,MODE_APPEND);
+        SharedPreferences.Editor editor=sp.edit();
+        int size=files.size();
+        editor.putInt("size",size);
+        for(int i=0;i<size;i++){
+            String key=i+"";
+            String value=files.get(i);
+            editor.putString(key,value);
+        }
+        editor.commit();
+    }
+
+
+    //从sp中读取文档路径
+    public  int readDocsFromSp(){
+        SharedPreferences sp=getSharedPreferences(SP_NAME,MODE_APPEND);
+        int size=sp.getInt("size",-1);
+        for(int i=0;i<size;i++){
+            String key=i+"";
+            String path=sp.getString(key,"");
+            files.add(path);
+        }
+        return size;
     }
 
 

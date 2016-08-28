@@ -47,8 +47,8 @@
 
         <ImageView
             android:id="@+id/iv_upload_file_complete"
-            android:layout_width="30dp"
-            android:layout_height="@dimen/qp_iv_file_added_width_height"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginRight="10dp"
             android:gravity="center"
             android:layout_gravity="center_vertical"

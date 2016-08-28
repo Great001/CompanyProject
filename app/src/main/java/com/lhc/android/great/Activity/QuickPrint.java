@@ -76,10 +76,15 @@ public class QuickPrint extends AppCompatActivity implements AddedfilesAdapter.O
         mTvComfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent();
-                intent.putStringArrayListExtra(SELECTED_FILES_KEY,files);
-                intent.setClass(QuickPrint.this,SettlemenActivity.class);
-                startActivity(intent);
+                int size=files.size();
+                if(size>0) {
+                    Intent intent = new Intent();
+                    intent.putStringArrayListExtra(SELECTED_FILES_KEY, files);
+                    intent.setClass(QuickPrint.this, SettlemenActivity.class);
+                    startActivity(intent);
+                }else{
+                    ToastUtil.showToast(QuickPrint.this,"您未选择任何文件");
+                }
             }
         });
 

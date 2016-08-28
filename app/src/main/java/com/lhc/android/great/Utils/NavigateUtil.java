@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.lhc.android.great.Activity.AboutUsActivity;
 import com.lhc.android.great.Activity.AccountManageActivity;
 import com.lhc.android.great.Activity.BrowserDocuments;
+import com.lhc.android.great.Activity.ChangePasswordActivity;
 import com.lhc.android.great.Activity.CompleUserinfoActivity;
 import com.lhc.android.great.Activity.FindPasswordActivity;
 import com.lhc.android.great.Activity.LoginActivity;
@@ -21,6 +22,7 @@ import com.lhc.android.great.Activity.SecondBookStore;
 import com.lhc.android.great.Activity.SetPasswordActivity;
 import com.lhc.android.great.Activity.SetupActivity;
 import com.lhc.android.great.Activity.ShopStore;
+import com.lhc.android.great.Activity.ShoppingSettle;
 import com.lhc.android.great.Activity.SignupActivity;
 import com.lhc.android.great.Activity.UserInfo;
 import com.lhc.android.great.Activity.UserInfoActivity;
@@ -166,7 +168,14 @@ public class NavigateUtil {
 
     public static void navigateToChangePasswordPage(Activity activity){
         Intent intent=new Intent();
-        intent.setClass(activity, SetPasswordActivity.class);
+        intent.setClass(activity, ChangePasswordActivity.class);
+        activity.startActivity(intent);
+    }
+
+
+    public static void NavigateToShoppingSettlePage(Activity activity){
+        Intent intent=new Intent();
+        intent.setClass(activity, ShoppingSettle.class);
         activity.startActivity(intent);
     }
 

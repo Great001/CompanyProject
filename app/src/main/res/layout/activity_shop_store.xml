@@ -21,11 +21,55 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <ListView
         android:id="@+id/lv_goods"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/custom_bottom_content_height"
         />
 
+    <RelativeLayout
+        android:id="@+id/rl_to_settle_area"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/custom_bottom_content_height"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:background="@color/app_gray">
+
+        <ImageView
+            android:id="@+id/iv_shopcar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/shopping_car"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_select_complete"
+            android:layout_width="@dimen/shopstore_to_settle_width"
+            android:layout_height="match_parent"
+            android:text="选好了"
+            android:textSize="@dimen/shop_goods_info_text_size"
+            android:gravity="center"
+            android:layout_alignParentRight="true"/>
+
+        <TextView
+            android:id="@+id/tv_shopstore_tips"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@id/tv_select_complete"
+            android:layout_toRightOf="@id/iv_shopcar"
+            android:textSize="@dimen/shop_goods_info_num_size"
+            android:textColor="@color/red"
+            />
+     </RelativeLayout>
+    </FrameLayout>
 
 </LinearLayout>
