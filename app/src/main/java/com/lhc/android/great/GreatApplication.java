@@ -36,8 +36,13 @@ public class GreatApplication extends Application {
         SharedPreferences sp = getSharedPreferences(DOCUMENT_SP_NAME, MODE_APPEND);
         int size = sp.getInt("size", -1);
         if (size == -1) {
-            ArrayList<String> files=BrowseFileUtil.getDocuments();
-            SaveDocPath2SP(files);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ArrayList<String> files=BrowseFileUtil.getDocuments();
+                    SaveDocPath2SP(files);
+                }
+            }).start();
         }
     }
 

@@ -31,7 +31,7 @@ public class GoodsShowAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mListGoods.size()/2;
+        return (mListGoods.size()+1)/2;
     }
 
     @Override
@@ -62,8 +62,11 @@ public class GoodsShowAdapter extends BaseAdapter {
             holder=(myViewHolder)view.getTag();
         }
 
-        Goods goodsOne=mListGoods.get(i);
-        Goods goodsTwo=mListGoods.get(i+1);
+        Goods goodsOne=mListGoods.get(i*2+0);
+        Goods goodsTwo=null;
+        if(i*2+1<mListGoods.size()) {
+             goodsTwo = mListGoods.get(i * 2 + 1);
+        }
         if(goodsOne!=null){
             String name=goodsOne.getName();
             String imgUrl=goodsOne.getImgUrl();
